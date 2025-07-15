@@ -31,6 +31,14 @@ app.use("/api/users",userRoutes);
 app.use("/api/tasks",taskRoutes);
 app.use("/api/reports",reportRoutes);
 
+//for deployment
+app.get("/",(req,res)=>{
+  res.send({
+    activeStatus:true,
+    error:false,
+  })
+})
+
 //Start Server
 const PORT=process.env.PORT || 5000;
 app.listen(PORT,'0.0.0.0',()=>{
