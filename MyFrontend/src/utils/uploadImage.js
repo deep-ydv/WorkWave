@@ -13,7 +13,8 @@ export const uploadImageToCloudinary = async (file) => {
     });
 
     const data = await res.json();
-    return data.secure_url;   // ✅ Return only the URL
+    const transformedUrl = data.secure_url.replace("/upload/", "/upload/c_thumb,g_face,w_200,h_200/");
+    return transformedUrl;   // ✅ Return only the URL
   } catch (error) {
     console.error('Cloudinary upload failed:', error);
     return null;
