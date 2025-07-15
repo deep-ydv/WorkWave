@@ -73,7 +73,7 @@ const ManageTaskCard = ({taskId,role}) => {
       <div className={`${getSideBorderColor(task.status)} border-l-4 px-4 flex flex-col gap-1`}>
         <p className='font-semibold capitalize text-md'>{task.title}</p>
         <p className='line-clamp-2 text-gray-500 text-xs h-[35px]'>{task.description}</p>
-        <TaskDoneLoader taskDone={completedTask/2} total={task.todoChecklist.length}/>
+        <TaskDoneLoader taskDone={completedTask} total={task.todoChecklist.length}/>
       </div>
 
       <div className='flex justify-between px-4'>
