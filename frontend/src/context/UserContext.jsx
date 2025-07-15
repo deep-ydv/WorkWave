@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const UserContext=createContext();
 export const UserProvider = ({ children }) => {
-
+  const url=import.meta.env.VITE_SERVER_URL;
   
   const [profileData,setProfileData]=useState([]);
 
@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
       const decoded=jwtDecode(token);
       // console.log(decoded);
       
-       await axios.get(`http://localhost:8000/api/users/${decoded.id}`,{
+       await axios.get(`${url}/api/users/${decoded.id}`,{
         headers: {
           Authorization: `Bearer ${token}`
         }

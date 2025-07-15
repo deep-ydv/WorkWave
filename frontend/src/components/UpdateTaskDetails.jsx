@@ -170,7 +170,7 @@ const UpdateTaskDetails = () => {
     }
     setAttach(newArr);
   }
-
+  const url=import.meta.env.VITE_SERVER_URL;
   const handleCreateTask=async()=>{
     // console.log(formData.title,formData.description,formData.priority,formData.dueDate,formData.assignedTo,formData.attachments,formData.todoChecklist,adminId);
         // Basic validation
@@ -196,7 +196,7 @@ const UpdateTaskDetails = () => {
           return;
         }
     try{
-      const response=await axios.put(`http://localhost:8000/api/tasks/${id}`,{
+      const response=await axios.put(`${url}/api/tasks/${id}`,{
         title:formData.title,
         description:formData.description,
         priority:formData.priority || "Low",

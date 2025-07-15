@@ -2,10 +2,10 @@ import axios from 'axios';
 import React from 'react'
 
 const ExcelReport = ({temp}) => {
-
+  const url=import.meta.env.VITE_SERVER_URL;
   const handleDownloadReport=async()=>{
     try {
-      const response = await axios.get(`http://localhost:8000/api/reports/export/${temp}`, {
+      const response = await axios.get(`${url}/api/reports/export/${temp}`, {
         responseType: 'blob', // important!
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

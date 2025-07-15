@@ -9,7 +9,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import toast from 'react-hot-toast';
 import { useAdminContext } from '../../context/AdminContext';
 
-const Signup = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -171,4 +171,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUp;

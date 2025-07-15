@@ -8,7 +8,7 @@ import { useAdminContext } from '../../context/AdminContext'
 const ManageUsers = () => {
   const {loading}=useAdminContext()
   useEffect(() => {
-    console.log("I M ManageTaskCard.jsx");
+    // console.log("I M ManageTaskCard.jsx");
   
   }, [])
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">

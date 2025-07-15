@@ -113,7 +113,7 @@ const CreateTask = () => {
     }
     setAttach(newArr);
   }
-
+  const url=import.meta.env.VITE_SERVER_URL;
   const handleCreateTask = async () => {
     // Basic validation
     if (!formData.title.trim()) {
@@ -140,7 +140,7 @@ const CreateTask = () => {
     
   
     try {
-      const response = await axios.post('http://localhost:8000/api/tasks/', {
+      const response = await axios.post(`${url}/api/tasks/`, {
         title: formData.title,
         description: formData.description,
         priority: formData.priority || "Low",

@@ -6,7 +6,7 @@ import Dashboard from './pages/Admin/Dashboard'
 import ManageTasks from './pages/Admin/ManageTasks'
 import ManageUsers from './pages/Admin/ManageUsers'
 import Login from './pages/Auth/Login'
-import Signup from './pages/Auth/Signup'
+import SignUp from './pages/Auth/SignUp'
 import Home from './pages/LandingPage/Home'
 import MyTasks from './pages/User/MyTasks'
 import UserDashboard from './pages/User/UserDashboard'
@@ -28,7 +28,7 @@ const App = () => {
          
           {/* Auth Routes */}
           <Route path='/login' element={<Login/>}/>
-          <Route path='/signup' element={<Signup/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
           {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
 
           {/* Admin Routes */}

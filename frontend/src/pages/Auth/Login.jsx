@@ -16,7 +16,7 @@ const Login = () => {
   const navigate=useNavigate();
 
   useEffect(()=>{
-    console.log("I M Login.jsx");
+    // console.log("I M Login.jsx");
 
     const token=localStorage.getItem('token');
     // console.log(token)
