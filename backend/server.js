@@ -9,7 +9,7 @@ const connectDB = require('./config/db');
 const authRoutes=require("./routes/authRoutes");
 const userRoutes=require("./routes/userRoutes");
 const taskRoutes=require("./routes/taskRoutes");
-const reportRoutes=requuire("./routes/reportRoutes");
+const reportRoutes=require("./routes/reportRoutes");
 
 
 const app=express();
@@ -33,6 +33,6 @@ app.use("/api/reports",reportRoutes);
 
 //Start Server
 const PORT=process.env.PORT || 5000;
-app.listen(PORT,()=>{
+app.listen(PORT,'0.0.0.0',()=>{
   console.log("Server listening on Port",PORT);
 })

@@ -276,6 +276,7 @@ const createTask=async(req,res)=>{
     res.status(201).json({message:"Task Created Successfully", task});
   }
   catch(error){
+    console.error("Create Task Error:", error); // Add this
     res.status(500).json({message:"Server Error",error:error.message});
   }
 }
@@ -394,17 +395,18 @@ const updateTaskChecklist=async(req,res)=>{
 //@route- DELETE /api/tasks/:id
 //@access- Private
 
-const deleteTask=async(req,res)=>{
-  try{
-    const task=await Task.findById(req.params.id);
-    if(!task) return res.status(404).json({message:"Task Not Found"});
-    await Task.deleteOne();
-    res.json({message:"Task Deleted Successfully"});
+const deleteTask = async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ message: "Task Not Found" });
+
+    await Task.findByIdAndDelete(req.params.id); // ✅ Correct delete
+    res.json({ message: "Task Deleted Successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
-  catch(error){
-    res.status(500).json({message:"Server Error",error:error.message});
-  }
-}
+};
 
 module.exports={
   getTasks,

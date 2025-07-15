@@ -9,6 +9,7 @@ router.get("/",protect,adminOnly,getUsers);
 //Get a specific User By Id
 router.get("/:id",protect,getUserById);
 //Delete User (Admin Only)
+router.delete("/:id",protect,deleteUser)
 
 
 module.exports =router; 
