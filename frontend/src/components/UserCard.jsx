@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAdminContext } from '../context/AdminContext'
 import { MdDeleteOutline } from "react-icons/md";
 import axiosInstance from '../utils/axiosInstance';
+import toast from 'react-hot-toast'
 
 const UserCard = () => {
   // const [card,setCard]=useState([]);
@@ -17,6 +18,7 @@ const handleFinalDelete=async()=>{
   try{
     const response=await axiosInstance.delete(`/users/${userId}`)
     // console.log(response);
+    if(response) toast.success("User Deleted Successfully");
   }
   catch(error){
     console.log(error);
