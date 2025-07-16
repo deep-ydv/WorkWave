@@ -129,6 +129,17 @@ const CreateTask = () => {
       toast.error("Due date is required");
       return;
     }
+
+    const today = new Date();
+    const dueDate = new Date(formData.dueDate);
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+  
+    if (dueDate < today) {
+      toast.error("Due date cannot be before today");
+      return;
+    }
+
     if (checkedUsers.length === 0) {
       toast.error("Please assign the task to at least one member");
       return;

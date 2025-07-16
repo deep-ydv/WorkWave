@@ -11,6 +11,7 @@ const UsersProfilePic = ({checkedUsers}) => {
     // console.log(pics.profileImageUrl);
   })
   
+  if(userPics.length==0) return <div>Kindly assign this task to someone.</div>
 
   return (
     <div className='w-[90%] items-center  flex h-10 overflow-hidden relative'>
