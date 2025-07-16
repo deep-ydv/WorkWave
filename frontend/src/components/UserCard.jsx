@@ -7,8 +7,10 @@ import toast from 'react-hot-toast'
 const UserCard = () => {
   // const [card,setCard]=useState([]);
   const [userId,setUserId]=useState('');
-  const { usersData } = useAdminContext();
+  const { usersData,fetchData } = useAdminContext();
   const [deleteUserBox,setDeleteUserBox]=useState(false);
+  
+  
   const handleDeleteUser=(id)=>{
     setUserId(id);
     // console.log(id);
@@ -20,6 +22,7 @@ const handleFinalDelete=async()=>{
     // console.log(response);
     if(response) toast.success("User Deleted Successfully");
     setDeleteUserBox(prev=>!prev);
+    fetchData();
   }
   catch(error){
     console.log(error);
