@@ -19,6 +19,7 @@ const handleFinalDelete=async()=>{
     const response=await axiosInstance.delete(`/users/${userId}`)
     // console.log(response);
     if(response) toast.success("User Deleted Successfully");
+    setDeleteUserBox(prev=>!prev);
   }
   catch(error){
     console.log(error);
