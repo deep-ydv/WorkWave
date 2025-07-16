@@ -17,10 +17,12 @@ app.use(express.json());
 
 //MiddleWare to handle CORS
 app.use(cors({
-  origin:process.env.CLIENT_URL || "*",
+  // origin:process.env.CLIENT_URL || "*",
+  origin: ["http://localhost:5173", "https://workwave247.vercel.app"],
   methods: ["GET","POST","PUT","DELETE"],
   allowedHeaders: ["Content-Type","Authorization"],
 }))
+
 
 //Connect DB
 connectDB();
