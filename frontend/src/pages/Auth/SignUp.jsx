@@ -8,6 +8,8 @@ import { jwtDecode } from 'jwt-decode';
 import axiosInstance from '../../utils/axiosInstance';
 import toast from 'react-hot-toast';
 import { useAdminContext } from '../../context/AdminContext';
+import HowToUse from '../../components/HowToUse'
+import { IoIosCloseCircleOutline } from "react-icons/io"
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -18,6 +20,11 @@ const SignUp = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [fileData, setFileData] = useState(null);
   const [errors, setErrors] = useState({});
+  const [howToUse,setHowToUse]=useState(false);
+
+  const handleHowToUse=()=>{
+    setHowToUse(prev=>!prev)
+      }
 
   const { fetchData } = useAdminContext();
   const navigate = useNavigate();
@@ -117,7 +124,8 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className='flex flex-col w-full justify-center h-full p-8 border-amber-900 border-0 md:justify-end'>
+      <div className='relative flex flex-col w-full justify-center h-full p-8 border-amber-900 border-0 md:justify-end'>
+      {<div className={`${howToUse?"block":"hidden"} absolute z-15 flex justify-center`}> <p className="absolute flex  w-[80%] justify-end px-2 py-1"><IoIosCloseCircleOutline className="text-purple-700 text-2xl hover:text-red-600 font-semibold cursor-pointer" onClick={handleHowToUse} /></p> <HowToUse/></div>}
         <div className='leading-tight text-center md:text-left'>
           <h2 className='font-bold text-[22px]'>Create an Account</h2>
           <p className='text-gray-500 text-[14px]'>Join us today by entering your details below.</p>
@@ -165,6 +173,7 @@ const SignUp = () => {
               Already have an account? <Link to="/login" className='text-blue-700'>login</Link>
             </p>
           </form>
+          <p className='text-red-300 cursor-pointer hover:text-red-600' onClick={handleHowToUse}>*How to use</p>
         </div>
       </div>
     </AuthLayout>
