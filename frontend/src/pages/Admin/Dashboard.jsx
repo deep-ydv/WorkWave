@@ -6,6 +6,7 @@ import {
   MdOutlineAddBox,
   MdOutlineDashboard,
 } from "react-icons/md";
+import {HashLoader} from 'react-spinners'
 import Menu from "../../components/Menu";
 import MainContent from "../../components/MainContent";
 import toast, { Toaster } from "react-hot-toast";
@@ -49,7 +50,8 @@ const Dashboard = () => {
   }, []);
 
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>
   return (

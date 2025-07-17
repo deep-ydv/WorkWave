@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import {  Outlet, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
+import {HashLoader} from 'react-spinners'
 
 
 const PrivateRoute = ({ allowedRoles }) => {
@@ -27,7 +28,8 @@ const PrivateRoute = ({ allowedRoles }) => {
     fetchingRole();
   },[])
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>
   return <Outlet />;

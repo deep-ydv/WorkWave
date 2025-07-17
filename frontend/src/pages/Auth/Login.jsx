@@ -6,14 +6,19 @@ import axiosInstance from '../../utils/axiosInstance.js'
 import {jwtDecode} from 'jwt-decode';
 import {toast, Toaster} from 'react-hot-toast';
 import { useAdminContext } from '../../context/AdminContext'
-
+import HowToUse from '../../components/HowToUse'
+import { IoIosCloseCircleOutline } from "react-icons/io"
 const Login = () => {
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
+  const [howToUse,setHowToUse]=useState(false);
 
   // const {fetchData}=useAdminContext();
 
   const navigate=useNavigate();
+  const handleHowToUse=()=>{
+setHowToUse(prev=>!prev)
+  }
 
   useEffect(()=>{
     // console.log("I M Login.jsx");
@@ -74,12 +79,13 @@ const Login = () => {
   return (
     <>   
     <AuthLayout>
-     <div className='flex flex-col h-full  justify-center w-full p-8 lg:w-[80%] border-amber-900 border- md:justify-end'>
+     <div className='relative flex flex-col h-full  justify-center w-full p-8 lg:w-[80%] border-amber-900 border- md:justify-end'>
+     {<div className={`${howToUse?"block":"hidden"} absolute z-15 flex justify-center`}> <p className="absolute flex  w-[80%] justify-end px-2 py-1"><IoIosCloseCircleOutline className="text-purple-700 text-2xl hover:text-red-600 font-semibold cursor-pointer" onClick={handleHowToUse} /></p> <HowToUse/></div>}
       <div className='leading-tight text-center md:text-left'>
         <h2 className='font-bold text-[22px]'>Welcome Back</h2>
         <p className='text-gray-500 text-[14px]'>Please enter your details to login</p>
       </div>
-      <div className='mt-8'>
+      <div className='mt-8 relative'>
         <form  className='flex flex-col items-center  gap-2 md:items-start'>
           
           <div className='flex flex-col gap-y-4 border-0 border-red-500 w-[50%] min-w-[300px]'>
@@ -91,6 +97,8 @@ const Login = () => {
           <button className='bg-blue-600 text-white py-1 text-lg rounded-sm mt-4 px-4 w-[50%] min-w-[300px]' onClick={(e)=>handleLogin(e)}>LOGIN</button>
           <p>Don't have an account?<Link to="/signup" className='text-blue-700'>Signup</Link></p>
         </form>
+        <p className='text-red-300 cursor-pointer hover:text-red-600' onClick={handleHowToUse}>*How to use</p>
+       
       </div>
       </div>
       

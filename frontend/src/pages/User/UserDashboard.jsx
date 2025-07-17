@@ -5,6 +5,7 @@ import GraphSection from '../../components/GraphSection';
 import Greet from '../../components/Greet';
 import RecentTasks from '../../components/RecentTasks';
 import Spinner from '../../components/Spinner';
+import {HashLoader} from 'react-spinners'
 
 import UserLayout from '../../components/UserLayout';
 import { useUserContext } from '../../context/UserContext';
@@ -44,7 +45,8 @@ const UserDashboard = () => {
   },[])
   return (
     <>{taskDetail.length<=0?<div className="flex flex-col items-center gap-2 justify-center h-screen">
-    <Spinner />
+    {/* <Spinner /> */}
+    <HashLoader color="#0906ef"/>
     <p className="text-sm text-gray-500">Loading, please wait...</p>
   </div>:
     <UserLayout>

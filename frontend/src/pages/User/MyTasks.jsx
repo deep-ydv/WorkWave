@@ -7,6 +7,7 @@ import TaskNav from '../../components/TaskNav';
 import UserLayout from '../../components/UserLayout'
 import { useAdminContext } from '../../context/AdminContext';
 import axiosInstance from '../../utils/axiosInstance';
+import {HashLoader} from 'react-spinners'
 
 const MyTasks = () => {
   const [taskDetails,setTaskDetails]=useState([]);
@@ -38,7 +39,8 @@ const MyTasks = () => {
   return (
     <UserLayout>
     {taskDetails.length<=0?<div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>:<div  className='flex gap-4 flex-col'>
         <div className='flex justify-between items-center'>

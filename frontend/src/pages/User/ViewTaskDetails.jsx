@@ -6,6 +6,7 @@ import UsersProfilePic from "../../components/UsersProfilePic";
 import axiosInstance from "../../utils/axiosInstance";
 import { FiExternalLink } from "react-icons/fi";
 import toast from "react-hot-toast";
+import {HashLoader} from 'react-spinners'
 import Spinner from "../../components/Spinner";
 
 const ViewTaskDetails = () => {
@@ -62,7 +63,8 @@ const ViewTaskDetails = () => {
         {" "}
         {Object.entries(task).length <= 0 ? (
           <div className="flex flex-col items-center gap-2 justify-center h-screen">
-          <Spinner />
+          {/* <Spinner /> */}
+          <HashLoader color="#0906ef"/>
           <p className="text-sm text-gray-500">Loading, please wait...</p>
         </div>
         ) : (

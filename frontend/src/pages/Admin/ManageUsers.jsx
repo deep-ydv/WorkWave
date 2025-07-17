@@ -4,6 +4,7 @@ import ExcelReport from '../../components/ExcelReport'
 import Spinner from '../../components/Spinner'
 import UserCard from '../../components/UserCard'
 import { useAdminContext } from '../../context/AdminContext'
+import {HashLoader} from 'react-spinners'
 
 const ManageUsers = () => {
   const {loading}=useAdminContext()
@@ -12,7 +13,8 @@ const ManageUsers = () => {
   
   }, [])
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>
   return (

@@ -12,6 +12,7 @@ import axiosInstance from "../utils/axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
+import {HashLoader} from 'react-spinners'
 
 const UpdateTaskDetails = () => {
 
@@ -245,7 +246,8 @@ const UpdateTaskDetails = () => {
   }, [checkedUsers,todos,attach]);
 
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>
 

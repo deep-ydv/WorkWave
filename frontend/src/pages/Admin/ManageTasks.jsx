@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Spinner from '../../components/Spinner'
 import toast from 'react-hot-toast'
+import {HashLoader} from 'react-spinners';
 import ExcelReport from '../../components/ExcelReport'
 
 const ManageTasks = () => {
@@ -40,7 +41,8 @@ const ManageTasks = () => {
  var {filteringState}=useAdminContext();
 //  console.log(filteringState)
   if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  <Spinner />
+  {/* <Spinner /> */}
+  <HashLoader color="#0906ef"/>
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>
   return (
