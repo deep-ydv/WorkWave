@@ -49,7 +49,7 @@ And it empowers users with a clear view of their work and responsibilities.
 
 ## 📸 Screenshots
 
-> Replace the image paths below with your actual image file paths inside a `/screenshots` folder.
+<!-- > Replace the image paths below with your actual image file paths inside a `/screenshots` folder. -->
 
 ### 🏠 Dashboard
 <img src="./frontend/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="700"/>
@@ -58,12 +58,12 @@ And it empowers users with a clear view of their work and responsibilities.
 <img src="./frontend/screenshots/managetask.png" alt="Task View" width="700"/>
 
 ### 📊 Team Members
-<img src="./frontend/screenshots/teammembers.png" alt="Excel Export Feature" width="500"/>
+<img src="./frontend/screenshots/teammembers.png" alt="Excel Export Feature" width="700"/>
 
 ### 📋 Create Task
-<img src="./frontend/screenshots/createtask.png" alt="Task View" width="600"/>
+<img src="./frontend/screenshots/createtask.png" alt="Task View" width="700"/>
 
 ### 📊 Create Account
-<img src="./frontend/screenshots/account.png" alt="Excel Export Feature" width="400"/>
+<img src="./frontend/screenshots/account.png" alt="Excel Export Feature" width="700"/>
 
 ---
