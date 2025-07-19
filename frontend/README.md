@@ -54,10 +54,16 @@ And it empowers users with a clear view of their work and responsibilities.
 ### 🏠 Dashboard
 <img src="./screenshots/admin_dashboard.png" alt="Admin Dashboard" width="700"/>
 
-### 📋 Task View
-<img src="./screenshots/taskmanager.png" alt="Task View" width="700"/>
+### 📋 Manage Task 
+<img src="./screenshots/managetask.png" alt="Task View" width="700"/>
 
-### 📊 Excel Report Download
-<img src="./screenshots/teammembers.png" alt="Excel Export Feature" width="700"/>
+### 📊 Team Members
+<img src="./screenshots/teammembers.png" alt="Excel Export Feature" width="500"/>
+
+### 📋 Create Task
+<img src="./screenshots/createtask.png" alt="Task View" width="600"/>
+
+### 📊 Create Account
+<img src="./screenshots/account.png" alt="Excel Export Feature" width="400"/>
 
 ---
