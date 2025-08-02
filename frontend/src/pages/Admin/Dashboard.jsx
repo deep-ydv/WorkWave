@@ -1,79 +1,158 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  MdCurrencyBitcoin,
-  MdMenu,
-  MdOutlineAddBox,
-  MdOutlineDashboard,
-} from "react-icons/md";
-import {HashLoader} from 'react-spinners'
-import Menu from "../../components/Menu";
-import MainContent from "../../components/MainContent";
-import toast, { Toaster } from "react-hot-toast";
-import MenuOptions from "../../components/MenuOptions";
-import { FaTasks } from "react-icons/fa";
-import { GoPeople } from "react-icons/go";
-import { RxExit } from "react-icons/rx";
-import TaskCount from "../../components/TaskCount";
+"use client"
 
-import DistributionChart from "../../components/DistributionChart";
-import PriorityBarChart from "../../components/PriorityBarChart";
-import RecentTasks from "../../components/RecentTasks";
-import AdminLayout from "../../components/AdminLayout";
-import { useAdminContext } from "../../context/AdminContext";
-import axios from "axios";
-import Greet from "../../components/Greet";
-import GraphSection from "../../components/GraphSection";
-import axiosInstance from "../../utils/axiosInstance";
-import SkeletonLoader from "../../components/Spinner";
-import Spinner from "../../components/Spinner";
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { HashLoader } from "react-spinners"
+import { Toaster } from "react-hot-toast"
+import RecentTasks from "../../components/RecentTasks"
+import AdminLayout from "../../components/AdminLayout"
+import { useAdminContext } from "../../context/AdminContext"
+import Greet from "../../components/Greet"
+import GraphSection from "../../components/GraphSection"
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  
-
-
-  const { profileData,taskDetails,fetchData,loading} = useAdminContext();
-
-    
+  const navigate = useNavigate()
+  const { profileData, taskDetails, fetchData, loading } = useAdminContext()
 
   useEffect(() => {
-    // console.log("I M Dashboard.jsx",taskDetails);
-    fetchData();
-    const token = localStorage.getItem("token");
-
+    fetchData()
+    const token = localStorage.getItem("token")
     if (!token) {
-      navigate("/login");
+      navigate("/login")
     }
+  }, [])
 
-    
-  }, []);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 flex flex-col items-center justify-center gap-6">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur-xl opacity-20 animate-pulse"></div>
+          <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20">
+            <HashLoader color="#3b82f6" size={60} />
+          </div>
+        </div>
+        <div className="text-center space-y-2">
+          <p className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Loading Dashboard
+          </p>
+          <p className="text-sm text-gray-500">Please wait while we fetch your data...</p>
+          <div className="flex items-center justify-center gap-1 mt-4">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-  if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  {/* <Spinner /> */}
-  <HashLoader color="#0906ef"/>
-  <p className="text-sm text-gray-500">Loading, please wait...</p>
-</div>
   return (
     <AdminLayout>
-   
-          {/*Other section  */}
-          <div className="w-full h-screen gap-4 flex flex-col  ">
-            {/* Good Morning section */}
-            <Greet profileData={profileData} taskDetail={taskDetails} />
-
-            {/* Graph section */}
-            
-            <GraphSection taskDetail={taskDetails}  />
-
-            {/* RecentTask */}
-
-            <RecentTasks recentTasks={taskDetails.recentTasks} />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 p-4 md:p-6 lg:p-8">
+        {/* Main Dashboard Container */}
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* Welcome Header Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-6 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="space-y-2">
+                <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Dashboard Overview
+                </h1>
+                <p className="text-gray-600">Welcome back! Here's what's happening with your tasks today.</p>
+              </div>
+              <div className="flex items-center gap-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="font-medium">System Active</span>
+              </div>
+            </div>
           </div>
-      
-      
-    </AdminLayout>
-  );
-};
 
-export default Dashboard;
+          {/* Good Morning Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-1">
+              <div className="bg-white rounded-xl p-6">
+                <Greet profileData={profileData} taskDetail={taskDetails} />
+              </div>
+            </div>
+          </div>
+
+          {/* Graph Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-500 to-blue-600 p-1">
+              <div className="bg-white rounded-xl p-6">
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                    Analytics & Insights
+                  </h2>
+                  <p className="text-gray-600 text-sm">Track your team's performance and task distribution</p>
+                </div>
+                <GraphSection taskDetail={taskDetails} />
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Tasks Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-1">
+              <div className="bg-white rounded-xl p-6">
+                <div className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                        Recent Tasks
+                      </h2>
+                      <p className="text-gray-600 text-sm">Latest task activities and updates</p>
+                    </div>
+                    <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                      Live Updates
+                    </div>
+                  </div>
+                </div>
+                <RecentTasks recentTasks={taskDetails.recentTasks} />
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Decoration */}
+          <div className="text-center py-8">
+            <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg border border-white/20">
+              <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+              <span className="text-sm text-gray-600 font-medium">TaskWave Dashboard</span>
+              <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Toast Container */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            borderRadius: "12px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+          },
+          success: {
+            iconTheme: {
+              primary: "#10b981",
+              secondary: "#ffffff",
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: "#ef4444",
+              secondary: "#ffffff",
+            },
+          },
+        }}
+      />
+    </AdminLayout>
+  )
+}
+
+export default Dashboard
