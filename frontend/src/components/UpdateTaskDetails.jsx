@@ -1,379 +1,523 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client"
 
-import { FaUserCircle } from "react-icons/fa";
-
-import { ImAttachment, ImCancelCircle } from "react-icons/im";
-import axios from 'axios'
-import {jwtDecode} from 'jwt-decode';
-import UsersProfilePic from "./UsersProfilePic";
-import AdminLayout from "./AdminLayout";
-import { useAdminContext } from "../context/AdminContext";
-import axiosInstance from "../utils/axiosInstance";
-import { useNavigate, useParams } from "react-router-dom";
-import toast from "react-hot-toast";
-import Spinner from "./Spinner";
-import {HashLoader} from 'react-spinners'
+import { useEffect, useState } from "react"
+import { FaUserCircle } from "react-icons/fa"
+import { ImAttachment, ImCancelCircle } from "react-icons/im"
+import axios from "axios"
+import { jwtDecode } from "jwt-decode"
+import UsersProfilePic from "./UsersProfilePic" // Assuming this component exists and is styled
+import AdminLayout from "./AdminLayout" // Assuming this component exists and is styled
+import { useAdminContext } from "../context/AdminContext" // Assuming this context exists
+import axiosInstance from "../utils/axiosInstance" // Assuming this utility exists
+import { useNavigate, useParams } from "react-router-dom"
+import toast from "react-hot-toast"
+import { HashLoader } from "react-spinners"
 
 const UpdateTaskDetails = () => {
-
-  const [loading,setLoading]=useState(true)
-  const [deleteMessage,setDeleteMessage]=useState(false);
-  const [checkedUsers,setCheckedUsers]=useState([]);
-  const [hidden, setHidden]=useState(true);
-  const [todos,setTodos]=useState([]);
-  const [todoText,setTodoText]=useState('');
-  const [attach,setAttach]=useState([]);
-  const [attachmentText,setAttachmentText]=useState('');
-  const [adminId,setAdminId]=useState('');
-  const [token,setToken]=useState('');
-  const [formData,setFormData]=useState({
-    title: '',
-    description: '',
-    priority: '',
-    dueDate: '',
+  const [loading, setLoading] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [deleteMessage, setDeleteMessage] = useState(false)
+  const [checkedUsers, setCheckedUsers] = useState([])
+  const [hidden, setHidden] = useState(true) // For user selection modal
+  const [todos, setTodos] = useState([])
+  const [todoText, setTodoText] = useState("")
+  const [attach, setAttach] = useState([])
+  const [attachmentText, setAttachmentText] = useState("")
+  const [adminId, setAdminId] = useState("")
+  const [token, setToken] = useState("")
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    priority: "Low", // Default priority
+    dueDate: "",
     assignedTo: [],
     todoChecklist: [],
-    attachments: []
-     
+    attachments: [],
   })
-  
-  const {id}=useParams();
-  const navigate=useNavigate();
-  const fetchingTaskDetails=async()=>{
-   
+
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const { usersData } = useAdminContext() // Assuming usersData is available from context
+
+  const fetchingTaskDetails = async () => {
     try {
-        const response=await axiosInstance.get(`/tasks/${id}`);
-        // console.log(response);
-        setFormData(prev=>({...prev,title:response.data.title}))
-        setFormData(prev=>({...prev,description:response.data.description}))
-        setFormData(prev=>({...prev,priority:response.data.priority}))
-        setFormData(prev=>({...prev,dueDate:response.data.dueDate}))
-        setFormData(prev=>({...prev,assignedTo:response.data.assignedTo}))
-        setFormData(prev=>({...prev,todoChecklist:response.data.todoChecklist}))
-        setFormData(prev=>({...prev,attachments:response.data.attachments}))
-        setAttach(response.data.attachments)
-        setTodos(response.data.todoChecklist)
-        setCheckedUsers(response.data.assignedTo)
-        setLoading(false);
+      const response = await axiosInstance.get(`/tasks/${id}`)
+      const taskData = response.data
 
-
-
-
-
+      setFormData({
+        title: taskData.title,
+        description: taskData.description,
+        priority: taskData.priority,
+        dueDate: taskData.dueDate ? new Date(taskData.dueDate).toISOString().split("T")[0] : "",
+        assignedTo: taskData.assignedTo,
+        todoChecklist: taskData.todoChecklist,
+        attachments: taskData.attachments,
+      })
+      setAttach(taskData.attachments)
+      setTodos(taskData.todoChecklist)
+      setCheckedUsers(taskData.assignedTo)
+      setLoading(false)
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching task details:", error)
+      toast.error("Failed to load task details.")
+      setLoading(false)
     }
   }
 
-  useEffect(()=>{
-    
-    fetchingTaskDetails();
-  },[])
-  
-  const handleDeleteTask=()=>{
-    setDeleteMessage(true);
-  }
-  const handleDeleteCancel=()=>{
-    setDeleteMessage(false);
-  }
-  const handleTaskDelete=async()=>{
-    try{
-      const response=await axiosInstance.delete(`/tasks/${id}`)
-     
-        toast.success("Task Deleted Successfully");
-      navigate("/admin/tasks");
-      // console.log("Task Delete",response);
-      
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
-  const handleChange=(e)=>{
-    const {name,value}=e.target;
-    // console.log(name);
-    // console.log(value);
-    setFormData(prev=>({...prev,[name]:value}));
-  }
-  
-
-  const {usersData}=useAdminContext();
-  // console.log(usersData);
-
-  const handleTodoEnter=(e)=>{
-    if(e.key==='Enter'){
-    e.preventDefault();
-    handleAddTodo();
-    }
-  }
-  
-  const handleAttachmentEnter=(e)=>{
-    if(e.key==='Enter'){
-    e.preventDefault();
-    handleAttachment();
-    }
-  }
-  const handleCheck=(e,user)=>{    
-    // console.log(e.target.checked);
-    if(e.target.checked)
-    setCheckedUsers(prev=>[...prev,user]);
-    else {
-      // console.log(checkedUsers);
-      // console.log(user._id);
-      const newArr=checkedUsers.filter(curr=>curr._id != user._id);
-      setCheckedUsers(newArr);
-
-      // console.log(newArr);
-    }
-
-  }
-  const handleCancel=()=>{
-    setHidden(prev=>!prev);
-
-  }
- 
-
-  const handleAddTodo=()=>{
-    if (todoText.trim() !== '') {
-      setTodos(prevItems => [...prevItems, {todo:todoText,completed:false}]);
-      // let newArrForChecklist=todos;
-      // newArrForChecklist.push(todoText);
-      // console.log(newArrForChecklist);
-      setTodoText('');
-      // setFormData(prev=>({...prev,todoChecklist:temp}));
-      // console.log(todos)
-      
-    }
-  }
-  const handleDeleteTodo=(e,idx)=>{
-    // console.log(todos[i])
-    let newArr=[];
-    for(let i=0; i<todos.length; i++){
-      // console.log(todos[i]);
-      if(i!=idx) newArr.push(todos[i])
-    }
-    setTodos(newArr);
-    // setFormData(prev=>({...prev,todoChecklist:newArr}));
-
-  }
-  const handleAttachment=()=>{
-    if (attachmentText.trim() !== '') {
-      setAttach(prevItems => [...prevItems, attachmentText]);
-      setAttachmentText('');
-      
-    }
-  }
-  const handleDeleteAttachment=(e,idx)=>{
-    // console.log(todo)
-    let newArr=[];
-    for(let i=0; i<attach.length; i++){
-      // console.log(todos[i]);
-      if(i!=idx) newArr.push(attach[i])
-    }
-    setAttach(newArr);
-  }
-  const url=import.meta.env.VITE_SERVER_URL;
-  const handleCreateTask=async()=>{
-    // console.log(formData.title,formData.description,formData.priority,formData.dueDate,formData.assignedTo,formData.attachments,formData.todoChecklist,adminId);
-        // Basic validation
-        if (!formData.title.trim()) {
-          toast.error("Task title is required");
-          return;
-        }
-        if (!formData.description.trim()) {
-          toast.error("Description is required");
-          return;
-        }
-        
-        if (!formData.dueDate) {
-          toast.error("Due date is required");
-          return;
-        }
-        if (checkedUsers.length === 0) {
-          toast.error("Please assign the task to at least one member");
-          return;
-        }
-        if(todos.length===0){
-          toast.error("Please assign at least one task");
-          return;
-        }
-    try{
-      const response=await axios.put(`${url}/api/tasks/${id}`,{
-        title:formData.title,
-        description:formData.description,
-        priority:formData.priority || "Low",
-        dueDate:formData.dueDate,
-        assignedTo:formData.assignedTo,
-        attachments:formData.attachments,
-        todoChecklist:formData.todoChecklist,
-        createdBy:adminId,
-      },{
-        headers:{
-          Authorization:`Bearer ${token}`,
-          'Content-Type':'application/json'
-        }
-      });
-      // console.log(response);
-    if (response.status==200) {
-      toast.success("Task Updated Successfully");
-      navigate("/admin/tasks")
-    }
-    }
-    catch(error){
-      console.log(error.message);
-      toast.error("Failed to create task");
-    }
-  }
   useEffect(() => {
-    // console.log("I M CreateTask.jsx");
+    fetchingTaskDetails()
+  }, [id]) // Re-fetch if task ID changes
 
-    const localtoken=localStorage.getItem('token');
-      if(localtoken)
-      { 
-        setToken(localtoken);
-        const decode=jwtDecode(localtoken);
-        setAdminId(decode.id);
-        // console.log(decode);
+  const handleDeleteTask = () => {
+    setDeleteMessage(true)
+  }
+
+  const handleDeleteCancel = () => {
+    setDeleteMessage(false)
+  }
+
+  const handleTaskDelete = async () => {
+    try {
+      await axiosInstance.delete(`/tasks/${id}`)
+      toast.success("Task Deleted Successfully")
+      navigate("/admin/tasks")
+    } catch (error) {
+      console.error("Error deleting task:", error)
+      toast.error("Failed to delete task.")
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleTodoEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleAddTodo()
+    }
+  }
+
+  const handleAttachmentEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      handleAttachment()
+    }
+  }
+
+  const handleCheck = (e, user) => {
+    if (e.target.checked) {
+      setCheckedUsers((prev) => [...prev, user])
+    } else {
+      const newArr = checkedUsers.filter((curr) => curr._id !== user._id)
+      setCheckedUsers(newArr)
+    }
+  }
+
+  const handleCancel = () => {
+    setHidden((prev) => !prev)
+  }
+
+  const handleAddTodo = () => {
+    if (todoText.trim() !== "") {
+      setTodos((prevItems) => [...prevItems, { todo: todoText.trim(), completed: false }])
+      setTodoText("")
+    }
+  }
+
+  const handleDeleteTodo = (e, idx) => {
+    const newArr = todos.filter((_, i) => i !== idx)
+    setTodos(newArr)
+  }
+
+  const handleAttachment = () => {
+    if (attachmentText.trim() !== "") {
+      setAttach((prevItems) => [...prevItems, attachmentText.trim()])
+      setAttachmentText("")
+    }
+  }
+
+  const handleDeleteAttachment = (e, idx) => {
+    const newArr = attach.filter((_, i) => i !== idx)
+    setAttach(newArr)
+  }
+
+  const url = import.meta.env.VITE_SERVER_URL // Assuming VITE_SERVER_URL is correctly configured
+
+  const handleUpdateTask = async () => {
+    // Basic validation
+    if (!formData.title.trim()) {
+      toast.error("Task title is required")
+      return
+    }
+    if (!formData.description.trim()) {
+      toast.error("Description is required")
+      return
+    }
+    if (!formData.dueDate) {
+      toast.error("Due date is required")
+      return
+    }
+    const today = new Date()
+    const dueDate = new Date(formData.dueDate)
+    today.setHours(0, 0, 0, 0)
+    dueDate.setHours(0, 0, 0, 0)
+
+    if (dueDate < today) {
+      toast.error("Due date cannot be before today")
+      return
+    }
+    if (checkedUsers.length === 0) {
+      toast.error("Please assign the task to at least one member")
+      return
+    }
+    if (todos.length === 0) {
+      toast.error("Please assign at least one todo item")
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const response = await axios.put(
+        `${url}/api/tasks/${id}`,
+        {
+          title: formData.title,
+          description: formData.description,
+          priority: formData.priority || "Low",
+          dueDate: formData.dueDate,
+          assignedTo: formData.assignedTo,
+          attachments: formData.attachments,
+          todoChecklist: formData.todoChecklist,
+          createdBy: adminId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      )
+
+      if (response.status === 200) {
+        toast.success("Task Updated Successfully")
+        navigate("/admin/tasks")
       }
-      
-    // console.log(attach);
-    let checkBoxIds=[];
-    checkedUsers.map((curr)=>{
-        checkBoxIds.push(curr._id);
-    })
-    setFormData(prev=>({...prev,assignedTo:checkBoxIds}));
-    setFormData(prev=>({...prev,todoChecklist:todos}));
-    setFormData(prev=>({...prev,attachments:attach}));
-  }, [checkedUsers,todos,attach]);
+    } catch (error) {
+      console.error("Error updating task:", error.response?.data?.message || error.message)
+      toast.error(error.response?.data?.message || "Failed to update task")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
-  if(loading) return <div className="flex flex-col items-center gap-2 justify-center h-screen">
-  {/* <Spinner /> */}
-  <HashLoader color="#0906ef"/>
-  <p className="text-sm text-gray-500">Loading, please wait...</p>
-</div>
+  useEffect(() => {
+    const localtoken = localStorage.getItem("token")
+    if (localtoken) {
+      setToken(localtoken)
+      const decode = jwtDecode(localtoken)
+      setAdminId(decode.id)
+    }
+
+    const checkBoxIds = checkedUsers.map((curr) => curr._id)
+    setFormData((prev) => ({ ...prev, assignedTo: checkBoxIds }))
+    setFormData((prev) => ({ ...prev, todoChecklist: todos }))
+    setFormData((prev) => ({ ...prev, attachments: attach }))
+  }, [checkedUsers, todos, attach])
+
+  if (loading)
+    return (
+      <div className="flex flex-col items-center gap-2 justify-center h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+        <HashLoader color="#0906ef" size={50} />
+        <p className="text-sm text-gray-500 animate-pulse">Loading task details, please wait...</p>
+      </div>
+    )
 
   return (
     <AdminLayout>
-      <div className={`absolute p-4 w-[60%] flex justify-center `}>
-
-        {/* Delete message component */}
-        <div className={`z-10 ${deleteMessage?"block":"hidden"} w-full  h-[400px]  flex justify-center items-center`}>
-        <div className={` rounded-md shadow-2xl bg-red-300 gap-4 flex flex-col justify-center px-8 py-4`}>
-          <p className="font-semibold ">Are you sure you want to delete this task?</p> 
-          <div className="flex justify-end gap-4 ">
-          <button className="px-2 bg-red-100 border-1  font-semibold rounded-md cursor-pointer" onClick={handleDeleteCancel}>Cancel</button>
-          <button className="px-2 bg-red-100 border-1 text-red-600 font-semibold rounded-md cursor-pointer" onClick={handleTaskDelete}>Delete</button>
-          </div>
-          </div>
-          </div>
-          {/* Finish */}
-
-          {/* Select Users Componwnt */}
-      <div className={`w-[50%] p-4 ${hidden?"hidden":"block"} bg-gray-100 rounded-2xl shadow-2xl z-10  `}>
-        <div className="flex justify-between px-2 py-1 text-lg border-b-2">
-          <p>Select User</p>
-          <p onClick={handleCancel} className="cursor-pointer"><ImCancelCircle/></p>
-        </div>
-        <div className=" h-[420px] overflow-y-scroll">
-          { usersData.map((user,idx)=>{
-              return <div key={idx} className="flex gap-2  justify-between border-b-1 px-2 py-2 items-center">
-        <div className="flex items-center gap-4" >
-        <div className="w-[35px] h-[35px]  rounded-[50%]  overflow-hidden justify-center items-center">{user.profileImageUrl?<img src={user.profileImageUrl} alt="profile" />:<FaUserCircle className="w-[35px] h-[35px]"/>} </div>
-          <div className="text-sm">
-            <p>{user.name}</p>
-            <p>{user.email}</p>
+      {/* Delete Confirmation Modal */}
+      {deleteMessage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="w-full max-w-sm p-6 bg-white rounded-2xl shadow-2xl flex flex-col items-center gap-6 border-t-4 border-red-500">
+            <p className="text-xl font-semibold text-gray-800 text-center">
+              Are you sure you want to delete this task?
+            </p>
+            <div className="flex justify-center gap-4 w-full">
+              <button
+                className="flex-1 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 transition-all shadow-sm"
+                onClick={handleDeleteCancel}
+              >
+                Cancel
+              </button>
+              <button
+                className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-all shadow-md"
+                onClick={handleTaskDelete}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
-        <div><input type="checkbox" checked={checkedUsers.some((u) => u._id === user._id)}  onChange={(e)=>handleCheck(e,user)}/></div>
-              </div>
-          })}
+      )}
+
+      {/* User Selection Modal */}
+      {!hidden && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-2xl flex flex-col">
+            <div className="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
+              <p className="text-lg font-semibold text-gray-800">Select Members</p>
+              <button onClick={handleCancel} className="text-gray-500 hover:text-gray-700 transition-colors">
+                <ImCancelCircle className="text-2xl" />
+              </button>
+            </div>
+            <div className="h-[420px] overflow-y-auto pr-2 custom-scrollbar">
+              {usersData.length > 0 ? (
+                usersData.map((user, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-gray-100">
+                        {user.profileImageUrl ? (
+                          <img
+                            src={user.profileImageUrl || "/placeholder.svg"}
+                            alt="profile"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <FaUserCircle className="w-full h-full text-gray-400" />
+                        )}
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium text-gray-800">{user.name}</p>
+                        <p className="text-gray-500">{user.email}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        className="form-checkbox h-5 w-5 text-blue-600 rounded focus:ring-blue-500"
+                        checked={checkedUsers.some((u) => u._id === user._id)}
+                        onChange={(e) => handleCheck(e, user)}
+                      />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-500 py-10">No users available.</p>
+              )}
+            </div>
+            <div className="flex justify-end pt-4 mt-4 border-t border-gray-200">
+              <button
+                className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+                onClick={handleCancel}
+              >
+                Done
+              </button>
+            </div>
           </div>
-         
-        < div className="flex justify-end gap-4 px-2 py-2 border-t-2">
-          
-            {/* <p onClick={handleCancel} className="cursor-pointer px-2 py-1 rounded-2xl hover:bg-blue-300 hover:border-blue-500 hover:border-2">Cancel</p> */}
-            <p className="cursor-pointer px-2 py-1 rounded-2xl hover:bg-blue-300  border-1" onClick={handleCancel}>Done</p>
-          
         </div>
-      </div>
-      </div>
-      {/* Finish */}
+      )}
 
-      {/* Actual Component */}
-      <div className="bg-white  p-4 w-[70%] flex flex-col gap-4  ">
-        <div className="flex justify-between">
-        <h1 className="text-xl font-semibold">Update Task</h1>
-        <button onClick={handleDeleteTask} className="px-2  bg-red-100 border-1 text-red-600 font-semibold rounded-md cursor-pointer">Delete Task</button>
-
+      {/* Actual Component Content */}
+      <div className="bg-white p-6 md:p-8 w-full max-w-4xl mx-auto rounded-2xl shadow-lg flex flex-col gap-6">
+        <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+          <h1 className="text-2xl font-bold text-gray-800">Update Task</h1>
+          <button
+            onClick={handleDeleteTask}
+            className="px-4 py-2 rounded-lg bg-red-100 text-red-600 font-semibold hover:bg-red-200 transition-all shadow-sm"
+          >
+            Delete Task
+          </button>
         </div>
+
+        {/* Task Title */}
         <div>
-          <p>Task Title</p>
-          <input type="text" className="border-1 w-full px-2 py-1 rounded" placeholder="Enter Task Title" name="title" value={formData.title} onChange={handleChange}  />
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+            Task Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            placeholder="Enter Task Title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+          />
         </div>
+
+        {/* Description */}
         <div>
-          <p>Description</p>
-          <textarea placeholder="Describe Task" className="border-1 w-full p-2 rounded"  name="description" value={formData.description} onChange={handleChange}/>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+            Description
+          </label>
+          <textarea
+            id="description"
+            placeholder="Describe Task"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-h-[100px]"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
         </div>
-        <div className="flex gap-2">
-          <div className="w-[33%]">
-            <p>Priority</p>
+
+        {/* Priority, Due Date, Assign To */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="priority" className="block text-sm font-medium text-gray-700 mb-1">
+              Priority
+            </label>
             <select
-              id="status"
+              id="priority"
               name="priority"
-              className="border rounded p-2 w-full"
-              value={formData.priority} onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+              value={formData.priority}
+              onChange={handleChange}
             >
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
               <option value="High">High</option>
             </select>
           </div>
-          <div className="w-[33%]">
-            <p>Due Date</p>
-            <input type="date"   className="border-1 w-full p-2 rounded" name="dueDate" value={formData.dueDate?new Date(formData.dueDate).toISOString().split('T')[0]:""} onChange={handleChange}/>
+          <div>
+            <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 mb-1">
+              Due Date
+            </label>
+            <input
+              type="date"
+              id="dueDate"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+              name="dueDate"
+              value={formData.dueDate}
+              onChange={handleChange}
+            />
           </div>
-          <div className="w-[33%]">
-            <p>Assign To</p>
-            <div className="w-full rounded flex  items-center" onClick={handleCancel} >
-             {checkedUsers.length>0?<UsersProfilePic checkedUsers={checkedUsers} />:<button className="bg-black  cursor-pointer px-4 py-2 rounded-md text-white">Add Members</button>} 
+          <div>
+            <label htmlFor="assignTo" className="block text-sm font-medium text-gray-700 mb-1">
+              Assign To
+            </label>
+            <div
+              className="w-full p-3 border border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-blue-500 transition-all min-h-[48px]"
+              onClick={handleCancel}
+            >
+              {checkedUsers.length > 0 ? (
+                <UsersProfilePic checkedUsers={checkedUsers} />
+              ) : (
+                <button type="button" className="text-gray-600 font-medium">
+                  Add Members
+                </button>
+              )}
             </div>
-            
           </div>
-
         </div>
+
+        {/* Todo Checklist */}
         <div className="w-full">
-          <h2>Todo Checklist</h2>
-       
-           <div className="flex w-full gap-2">
-          <input type="text" placeholder="Enter Task" value={todoText} className="border-1 w-[89%] p-2 rounded" onChange={(e)=>setTodoText(e.target.value)} onKeyDown={handleTodoEnter} />
-          <button className="border-1 px-4 py-2 rounded-md cursor-pointer  text-white bg-black" onClick={handleAddTodo}>+ Add</button>
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Todo Checklist</h2>
+          <div className="flex w-full gap-2 mb-3">
+            <input
+              type="text"
+              placeholder="Enter Task"
+              value={todoText}
+              className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              onChange={(e) => setTodoText(e.target.value)}
+              onKeyDown={handleTodoEnter}
+            />
+            <button
+              type="button"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+              onClick={handleAddTodo}
+            >
+              + Add
+            </button>
           </div>
-          <div className="flex flex-col gap-2 mt-2">
-          {todos && todos.map((curr,idx)=>{
-          return <div className="w-full border-1 px-2 py-1 rounded-md flex justify-between items-center" key={idx}><div className="flex gap-2 items-center"><p className="text-sm">{idx<9? `0${idx+1}`:idx+1}</p><p>{curr.todo}</p></div> <p className="cursor-pointer" onClick={(e)=>handleDeleteTodo(e,idx)} ><ImCancelCircle/></p></div>
-        })}
-        </div>
+          <div className="flex flex-col gap-2">
+            {todos.length > 0 ? (
+              todos.map((curr, idx) => (
+                <div
+                  className="w-full p-3 border border-gray-200 rounded-lg flex justify-between items-center bg-gray-50 text-gray-800 shadow-sm"
+                  key={idx}
+                >
+                  <div className="flex gap-3 items-center">
+                    <p className="text-sm font-mono text-gray-500">{idx < 9 ? `0${idx + 1}` : idx + 1}.</p>
+                    <p className="font-medium">{curr.todo}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="text-red-500 hover:text-red-700 cursor-pointer text-xl"
+                    onClick={(e) => handleDeleteTodo(e, idx)}
+                  >
+                    <ImCancelCircle />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500 py-4">No todo items added yet.</p>
+            )}
+          </div>
         </div>
 
+        {/* Add Attachments */}
         <div className="w-full">
-          <h2>Add Attachments</h2>
-       
-           <div className="flex w-full gap-2">
-          <input type="text" placeholder="Enter File Link" value={attachmentText} className="border-1 w-[89%] p-2 rounded" onChange={(e)=>setAttachmentText(e.target.value)} onKeyDown={handleAttachmentEnter}/>
-          <button className="border-1 px-4 py-2 rounded-md cursor-pointer  text-white bg-black" onClick={handleAttachment} >+ Add</button>
-        </div>
-        <div className="flex flex-col gap-2 mt-2">
-          {attach && attach.map((attachment,idx)=>{
-          return <div className="w-full border-1 px-2 py-1 rounded-md flex justify-between items-center" key={idx}><div className="flex gap-2 items-center"><p><ImAttachment className="text-sm"/></p><p>{attachment}</p></div> <p className="cursor-pointer" onClick={(e)=>handleDeleteAttachment(e,idx)}><ImCancelCircle/></p></div>
-        })}
-        </div>
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Add Attachments</h2>
+          <div className="flex w-full gap-2 mb-3">
+            <input
+              type="text"
+              placeholder="Enter File Link"
+              value={attachmentText}
+              className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              onChange={(e) => setAttachmentText(e.target.value)}
+              onKeyDown={handleAttachmentEnter}
+            />
+            <button
+              type="button"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+              onClick={handleAttachment}
+            >
+              + Add
+            </button>
+          </div>
+          <div className="flex flex-col gap-2">
+            {attach.length > 0 ? (
+              attach.map((attachment, idx) => (
+                <div
+                  className="w-full p-3 border border-gray-200 rounded-lg flex justify-between items-center bg-gray-50 text-gray-800 shadow-sm"
+                  key={idx}
+                >
+                  <div className="flex gap-3 items-center">
+                    <ImAttachment className="text-lg text-gray-500" />
+                    <p className="font-medium truncate">{attachment}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="text-red-500 hover:text-red-700 cursor-pointer text-xl"
+                    onClick={(e) => handleDeleteAttachment(e, idx)}
+                  >
+                    <ImCancelCircle />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-500 py-4">No attachments added yet.</p>
+            )}
+          </div>
         </div>
 
-        <button className="bg-blue-100 p-2 rounded text-blue-700 cursor-pointer hover:bg-blue-800 hover:text-white" onClick={handleCreateTask}>Update Task</button>
-
+        {/* Update Task Button */}
+        <button
+          type="button"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all mt-6 shadow-md flex items-center justify-center gap-2"
+          onClick={handleUpdateTask}
+          disabled={isSubmitting}
+        >
+          {isSubmitting && <HashLoader color="#fff" size={20} />}
+          {isSubmitting ? "Updating Task..." : "Update Task"}
+        </button>
       </div>
     </AdminLayout>
-  );
-};
+  )
+}
 
-export default UpdateTaskDetails;
+export default UpdateTaskDetails

@@ -16,6 +16,8 @@ import AnyUrl from './components/AnyUrl'
 import UpdateTaskDetails from './components/UpdateTaskDetails'
 import Unauthorized from './components/Unauthorized'
 import NotFound from './routes/NotFound'
+// import AI from './TaskWaveLanding.jsx'
+import TaskWaveLanding from './components/TaskWaveLanding'
 const App = () => {
   return (
     <div>
@@ -23,7 +25,7 @@ const App = () => {
 
       <Router>
         <Routes>
-          <Route path='/' element={<Login/>}/>
+          <Route path='/' element={<TaskWaveLanding/>}/>
           <Route path="*" element={<NotFound/>} />
          
           {/* Auth Routes */}
