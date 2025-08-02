@@ -63,7 +63,7 @@ const ManageTaskCard = ({taskId,role}) => {
   return (
     <>
     {Object.entries(task).length<=0?<TaskCardSkeleton/>:
-    <div onClick={handleViewTask} className='flex w-[32%] text-sm flex-col gap-4 py-4 rounded-2xl bg-gray-100 shadow-md'>
+    <div onClick={handleViewTask} className='flex w-[32%] text-sm flex-col gap-4 py-4 rounded-2xl  shadow-md'>
     
       <div className='flex gap-4 px-4'>
         <p className={`${getProgressStyle(task.status)} border-1 px-4 rounded-lg font-semibold`}>{task.status}</p>

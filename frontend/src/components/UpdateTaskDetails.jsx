@@ -36,6 +36,7 @@ const UpdateTaskDetails = () => {
     attachments: []
      
   })
+  
   const {id}=useParams();
   const navigate=useNavigate();
   const fetchingTaskDetails=async()=>{

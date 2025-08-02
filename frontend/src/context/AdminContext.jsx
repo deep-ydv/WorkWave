@@ -6,7 +6,6 @@ import axiosInstance from '../utils/axiosInstance';
 const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
-  
   const [profileData,setProfileData]=useState({});
   const [usersData,setUsersData]=useState([]);
   // const [reload,setReload]=useState(false);
