@@ -239,7 +239,7 @@ const TaskWaveLanding = () => {
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               TaskWave
             </span> */}
-            <div className="w-[200px]"> 
+            <div className="w-[150px] sm:w-[200px] border- border-white"> 
               <TaskWaveLogo />
               </div>
  
@@ -284,7 +284,7 @@ const TaskWaveLanding = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t bg-white">
+          <div className="md:hidden border-t bg-[#0b1322]">
             <div className="container px-4 py-4 space-y-4 max-w-7xl mx-auto">
               <button
                 onClick={() => scrollToSection("how-it-works")}
@@ -304,7 +304,7 @@ const TaskWaveLanding = () => {
               >
                 FAQ
               </button>
-              <button className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2">
+              <button onClick={()=>handleAuth("login")} className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2">
                 Login
               </button>
             </div>
@@ -684,7 +684,7 @@ const TaskWaveLanding = () => {
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
               Ready to transform your team's productivity?
             </h2>
-            <p className="text-xl text-blue-100">
+            <p className="text-md sm:text-xl text-blue-100">
               Join thousands of teams who have streamlined their workflow with TaskWave. Start using TaskWave today and
               experience real-time task management like never before.
             </p>
