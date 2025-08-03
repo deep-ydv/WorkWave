@@ -1,5 +1,5 @@
 "use client"
-
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import {
   CheckCircle,
@@ -19,6 +19,7 @@ import {
   ChevronDown,
   X,
 } from "lucide-react"
+import TaskWaveLogo from "./ui/TaskWaveLogo"
 
 const TaskWaveLanding = () => {
   const [openAccordion, setOpenAccordion] = useState(null)
@@ -51,7 +52,7 @@ const TaskWaveLanding = () => {
       title: "1. Create & Assign",
       description:
         "Admins create tasks with detailed descriptions, deadlines, and priorities. Assign them to one or multiple team members instantly.",
-      bgColor: "from-blue-100 to-purple-100",
+      bgColor: "from-blue-300 to-purple-300",
       iconColor: "text-blue-600",
     },
     {
@@ -59,7 +60,7 @@ const TaskWaveLanding = () => {
       title: "2. Real-time Updates",
       description:
         "Team members receive instant notifications and can update task progress. All changes sync in real-time across all dashboards.",
-      bgColor: "from-purple-100 to-pink-100",
+      bgColor: "from-purple-300 to-pink-300",
       iconColor: "text-purple-600",
     },
     {
@@ -67,7 +68,7 @@ const TaskWaveLanding = () => {
       title: "3. Track & Complete",
       description:
         "Monitor progress with visual dashboards, get completion notifications, and maintain full visibility of your team's productivity.",
-      bgColor: "from-green-100 to-blue-100",
+      bgColor: "from-green-300 to-blue-300",
       iconColor: "text-green-600",
     },
   ]
@@ -218,19 +219,30 @@ const TaskWaveLanding = () => {
       links: ["Help Center", "Documentation", "Status", "Security"],
     },
   ]
+  const navigate=useNavigate();
+  const handleAuth=(text)=>{
+    if(text=="login") navigate("/login");
+    else if(text=="singup") navigate("/signup");
+  }
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-50 w-full border-b bg-[#0b1322] text-white
+  shadow-sm
+ ">
         <div className="container flex h-16 items-center justify-between px-4 md:px-6 max-w-7xl mx-auto">
           <div className="flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
+            {/* <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
               <Workflow className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               TaskWave
-            </span>
+            </span> */}
+            <div className="w-[200px]"> 
+              <TaskWaveLogo />
+              </div>
+ 
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
@@ -255,10 +267,10 @@ const TaskWaveLanding = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-gray-100 h-10 px-4 py-2">
+            <button onClick={()=>handleAuth("login")} className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-black   h-10 px-4 py-2">
               Login
             </button>
-            <button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2">
+            <button onClick={()=>handleAuth("singup")} className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2" >
               Get Started
             </button>
             <button
@@ -318,7 +330,7 @@ const TaskWaveLanding = () => {
                   <br />
                   Collaboration
                 </h1>
-                <p className="text-xl text-gray-600 max-w-[600px]">
+                <p className="text-xl text-gray-600 max-w-[600px] text-justify break-words">
                   Empower your team with TaskWave's intelligent task management platform. Create, assign, and track
                   tasks in real-time while your team stays synchronized and productive.
                 </p>
@@ -456,10 +468,10 @@ const TaskWaveLanding = () => {
       </section>
 
       {/* Trusted Companies Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-[#0b1322]">
         <div className="container px-4 md:px-6 max-w-7xl mx-auto">
           <div className="text-center space-y-4 mb-12">
-            <p className="text-sm font-medium text-gray-600 uppercase tracking-wide">
+            <p className="text-sm font-medium text-white uppercase tracking-wide">
               Trusted by teams at leading companies
             </p>
           </div>
@@ -490,16 +502,16 @@ const TaskWaveLanding = () => {
       </section>
 
       {/* How it Works Section */}
-      <section id="how-it-works" className="py-20 md:py-32">
+      <section id="how-it-works" className="py-20 md:py-32 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container px-4 md:px-6 max-w-7xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-gray-950 border-gray-200">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-white border-white ">
               How it Works
             </div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
               Simple workflow, powerful results
             </h2>
-            <p className="text-xl text-gray-600 max-w-[800px] mx-auto">
+            <p className="text-xl text-white max-w-[800px] mx-auto">
               Get started in minutes with our intuitive task management system
             </p>
           </div>
@@ -513,7 +525,7 @@ const TaskWaveLanding = () => {
                   <step.icon className={`h-8 w-8 ${step.iconColor}`} />
                 </div>
                 <h3 className="text-xl font-semibold">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
+                <p className="text-white">{step.description}</p>
               </div>
             ))}
           </div>
@@ -584,14 +596,14 @@ const TaskWaveLanding = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 md:py-32">
-        <div className="container px-4 md:px-6 max-w-7xl mx-auto">
+      <section className="py-20 md:py-32 border- bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container px-4 md:px-6 max-w-7xl mx-auto border-">
           <div className="text-center space-y-4 mb-16">
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-gray-950 border-gray-200">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-white border-white">
               Testimonials
             </div>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Loved by teams worldwide</h2>
-            <p className="text-xl text-gray-600 max-w-[800px] mx-auto">See what teams are saying about TaskWave</p>
+            <p className="text-xl text-white max-w-[800px] mx-auto">See what teams are saying about TaskWave</p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
@@ -696,10 +708,11 @@ const TaskWaveLanding = () => {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
+                {/* <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
                   <Workflow className="h-5 w-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">TaskWave</span>
+                </div> */}
+                {/* <span className="text-xl font-bold">TaskWave</span> */}
+                <div><TaskWaveLogo/></div>
               </div>
               <p className="text-gray-400">
                 Empower your team with real-time task management and seamless collaboration.
