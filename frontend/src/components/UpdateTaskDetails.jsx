@@ -416,12 +416,12 @@ const UpdateTaskDetails = () => {
         {/* Todo Checklist */}
         <div className="w-full">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">Todo Checklist</h2>
-          <div className="flex w-full gap-2 mb-3">
+          <div className="flex w-full gap-2 mb-3 flex-wrap">
             <input
               type="text"
               placeholder="Enter Task"
               value={todoText}
-              className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-[30%] flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               onChange={(e) => setTodoText(e.target.value)}
               onKeyDown={handleTodoEnter}
             />
@@ -462,12 +462,12 @@ const UpdateTaskDetails = () => {
         {/* Add Attachments */}
         <div className="w-full">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">Add Attachments</h2>
-          <div className="flex w-full gap-2 mb-3">
+          <div className="flex w-full gap-2 mb-3 flex-wrap">
             <input
               type="text"
               placeholder="Enter File Link"
               value={attachmentText}
-              className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-[30%] flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               onChange={(e) => setAttachmentText(e.target.value)}
               onKeyDown={handleAttachmentEnter}
             />

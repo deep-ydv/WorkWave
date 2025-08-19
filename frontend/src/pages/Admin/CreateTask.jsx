@@ -353,12 +353,12 @@ const CreateTask = () => {
         {/* Todo Checklist */}
         <div className="w-full">
           <h2 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Todo Checklist</h2>
-          <div className="flex gap-2 mb-4">
+          <div className=" flex gap-2 mb-4 flex-wrap">
             <input
               type="text"
               placeholder="Enter Todo Item"
               value={todoText}
-              className="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-[30%] flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               onChange={(e) => setTodoText(e.target.value)}
               onKeyDown={handleTodoEnter}
             />
@@ -399,12 +399,12 @@ const CreateTask = () => {
         {/* Add Attachments */}
         <div className="w-full">
           <h2 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Add Attachments</h2>
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 flex-wrap">
             <input
               type="text"
               placeholder="Enter File Link (e.g., Google Drive, Dropbox URL)"
               value={attachmentText}
-              className="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+              className="w-[30%] flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
               onChange={(e) => setAttachmentText(e.target.value)}
               onKeyDown={handleAttachmentEnter}
             />
