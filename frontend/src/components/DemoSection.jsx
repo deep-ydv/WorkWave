@@ -1,13 +1,38 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Play, Pause, RotateCcw, RotateCw } from "lucide-react";
 
 export default function DemoSection() {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [progress, setProgress] = useState(0); // % progress
+  const [progress, setProgress] = useState(0); // 0..100
+  const [showControls, setShowControls] = useState(false);
+  const hideTimerRef = useRef(null);
 
-  // Toggle Play / Pause
+  // --- helpers for control visibility ---
+  const revealControls = () => {
+    setShowControls(true);
+    // reset inactivity timer
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = setTimeout(() => setShowControls(false), 3000);
+  };
+
+  const hideControls = () => {
+    // don't hide immediately on desktop hover leave if user is interacting with slider
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setShowControls(false);
+  };
+
+  // show controls briefly when play/pause/seek happens
+  const pingControls = () => revealControls();
+
+  useEffect(() => {
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
+  // --- player actions ---
   const togglePlay = () => {
     if (!videoRef.current) return;
     if (isPlaying) {
@@ -16,37 +41,47 @@ export default function DemoSection() {
       videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
+    pingControls();
   };
 
-  // Skip forward/back
   const skip = (seconds) => {
     if (!videoRef.current) return;
     videoRef.current.currentTime += seconds;
+    pingControls();
   };
 
-  // Playback speed toggle
   const changeSpeed = () => {
     if (!videoRef.current) return;
-    let newRate = playbackRate === 2 ? 0.5 : playbackRate + 0.5;
+    const newRate = playbackRate === 2 ? 0.5 : playbackRate + 0.5; // 0.5→1→1.5→2
     videoRef.current.playbackRate = newRate;
     setPlaybackRate(newRate);
+    pingControls();
   };
 
-  // Update progress bar
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
-    const percent =
-      (videoRef.current.currentTime / videoRef.current.duration) * 100;
-    setProgress(percent || 0);
+    const p = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+    setProgress(p || 0);
   };
 
-  // Seek when dragging progress bar
   const handleSeek = (e) => {
     if (!videoRef.current) return;
-    const newTime =
-      (e.target.value / 100) * videoRef.current.duration;
+    const val = Number(e.target.value);
+    const newTime = (val / 100) * videoRef.current.duration;
     videoRef.current.currentTime = newTime;
-    setProgress(e.target.value);
+    setProgress(val);
+    pingControls();
+  };
+
+  // click anywhere on the frame to toggle controls (good for mobile)
+  const handleFrameClick = () => {
+    if (showControls) {
+      // if visible, keep them up for longer
+      revealControls();
+    } else {
+      setShowControls(true);
+      revealControls();
+    }
   };
 
   return (
@@ -68,7 +103,10 @@ export default function DemoSection() {
         <div className="relative max-w-6xl mx-auto mb-20">
           <div className="relative">
             {/* MacBook Frame */}
-            <div id="Demo" className="relative bg-gray-800 rounded-t-xl p-2 shadow-2xl">
+            <div
+              id="Demo"
+              className="relative bg-gray-800 rounded-t-xl p-2 shadow-2xl"
+            >
               <div className="bg-gray-700 rounded-t-lg p-2">
                 <div className="flex space-x-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
@@ -76,17 +114,31 @@ export default function DemoSection() {
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
               </div>
-              <div className="bg-black rounded-b-lg relative overflow-hidden">
-                {/* Video */}
+
+              {/* Video area */}
+              <div
+                className="bg-black rounded-b-lg relative overflow-hidden group"
+                onMouseEnter={revealControls}
+                onMouseLeave={hideControls}
+                onClick={handleFrameClick}
+              >
                 <video
                   ref={videoRef}
                   src="/taskwavedemo.mp4"
                   className="w-full h-auto object-cover aspect-video"
                   onTimeUpdate={handleTimeUpdate}
+                  onPlay={() => { setIsPlaying(true); pingControls(); }}
+                  onPause={() => { setIsPlaying(false); pingControls(); }}
                 />
 
-                {/* Controls */}
-                <div className="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm px-4 py-3">
+                {/* Controls overlay */}
+                <div
+                  className={[
+                    "absolute bottom-0 left-0 right-0 bg-black/55 backdrop-blur-sm px-4 py-3 transition-opacity duration-200",
+                    showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+                  ].join(" ")}
+                  onMouseMove={revealControls} // keeps them visible while moving
+                >
                   {/* Progress Bar */}
                   <input
                     type="range"
@@ -94,20 +146,25 @@ export default function DemoSection() {
                     max="100"
                     value={progress}
                     onChange={handleSeek}
+                    onMouseDown={revealControls}
+                    onTouchStart={revealControls}
                     className="w-full h-1 mb-2 accent-blue-500 cursor-pointer"
                   />
 
                   {/* Buttons */}
-                  <div className="flex justify-center gap-6 items-center">
+                  <div className="flex justify-center gap-6 items-center select-none">
                     <button
                       onClick={() => skip(-10)}
                       className="text-white hover:text-blue-400"
+                      aria-label="Rewind 10 seconds"
                     >
                       <RotateCcw className="w-6 h-6" />
                     </button>
+
                     <button
                       onClick={togglePlay}
                       className="text-white hover:text-green-400"
+                      aria-label={isPlaying ? "Pause" : "Play"}
                     >
                       {isPlaying ? (
                         <Pause className="w-7 h-7" />
@@ -115,15 +172,19 @@ export default function DemoSection() {
                         <Play className="w-7 h-7" />
                       )}
                     </button>
+
                     <button
                       onClick={() => skip(10)}
                       className="text-white hover:text-blue-400"
+                      aria-label="Forward 10 seconds"
                     >
                       <RotateCw className="w-6 h-6" />
                     </button>
+
                     <button
                       onClick={changeSpeed}
                       className="text-white hover:text-yellow-400 text-sm font-medium px-2 border border-white/30 rounded"
+                      aria-label="Change playback speed"
                     >
                       {playbackRate}x
                     </button>
@@ -131,6 +192,7 @@ export default function DemoSection() {
                 </div>
               </div>
             </div>
+
             {/* MacBook Base */}
             <div className="bg-gray-300 h-6 rounded-b-xl mx-auto" style={{ width: "60%" }}></div>
             <div className="bg-gray-400 h-2 rounded-full mx-auto mt-1" style={{ width: "20%" }}></div>

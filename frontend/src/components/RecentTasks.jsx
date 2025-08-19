@@ -135,7 +135,7 @@ const RecentTasks = ({recentTasks}) => {
             <div key={idx} className="bg-white/60 backdrop-blur-sm border border-white/20 rounded-xl p-4 hover:bg-white/80 transition-all duration-300 hover:shadow-lg">
               <div className="flex justify-between items-start mb-3">
                 <h3 className='font-semibold text-gray-800 flex-1 mr-2'>{task.title}</h3>
-                <span className={`px-2 py-1 text-xs font-semibold rounded-full border ${getStatusColor(task.status)} whitespace-nowrap`}>
+                <span className={`px-2 py-1 text-[10px] sm:text-sm font-semibold rounded-full border ${getStatusColor(task.status)} whitespace-nowrap`}>
                   {task.status}
                 </span>
               </div>
@@ -143,12 +143,12 @@ const RecentTasks = ({recentTasks}) => {
               <div className="flex justify-between items-center text-sm">
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500">Priority:</span>
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full border ${getPriorityColor(task.priority)}`}>
+                  <span className={`px-2 py-1 text-[10px] sm:text-sm font-semibold rounded-full border ${getPriorityColor(task.priority)}`}>
                     {task.priority}
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex text-[10px] sm:text-sm items-center gap-2 text-gray-600">
                   <FaCalendarAlt className="text-xs" />
                   <DateFixing date={task.createdAt?.slice(0,10)} />
                 </div>
@@ -168,9 +168,9 @@ const RecentTasks = ({recentTasks}) => {
         {/* Bottom Stats */}
         {filteredTasks?.length > 0 && (
           <div className="mt-6 pt-4 border-t border-gray-200/50">
-            <div className="flex justify-between items-center text-xs text-gray-600">
+            <div className="flex flex-wrap justify-between items-center text-xs text-gray-600">
               <span>Showing {displayTasks.length} of {filteredTasks.length} tasks</span>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                   <span>Pending: {recentTasks?.filter(t => t.status === 'Pending').length || 0}</span>
