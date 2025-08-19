@@ -105,12 +105,12 @@ const UserDashboard = () => {
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden">
                   <div className="bg-gradient-to-r from-purple-500 to-blue-600 p-1">
                     <div className="bg-white rounded-xl p-6">
-                      <div className="mb-6">
+                      {/* <div className="mb-6">
                         <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
                           Your Task Analytics
                         </h2>
                         <p className="text-gray-600 text-sm">Track your personal task distribution and priorities.</p>
-                      </div>
+                      </div> */}
                       <GraphSection taskDetail={taskDetail} />
                     </div>
                   </div>
@@ -122,16 +122,16 @@ const UserDashboard = () => {
                     <div className="bg-white rounded-xl p-6">
                       <div className="mb-6">
                         <div className="flex items-center justify-between">
-                          <div>
+                          {/* <div>
                             <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
                               Your Recent Tasks
                             </h2>
                             <p className="text-gray-600 text-sm">Latest activities and updates on your tasks.</p>
-                          </div>
-                          <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                          </div> */}
+                          {/* <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
                             <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                             Live Updates
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <RecentTasks recentTasks={taskDetail.recentTasks} />

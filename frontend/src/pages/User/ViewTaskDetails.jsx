@@ -170,8 +170,8 @@ const ViewTaskDetails = () => {
           {/* Priority */}
           <div className="flex flex-col">
             <p className="text-sm font-medium text-gray-500 mb-1">Priority</p>
-            <span className={`w-30 text text-center px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(priority)}`}>
-              {priority}
+            <span className={`w-30 text text-center px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(task.priority)}`}>
+              {task.priority}
             </span>
           
           </div>
