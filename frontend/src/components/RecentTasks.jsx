@@ -77,7 +77,7 @@ const RecentTasks = ({recentTasks}) => {
             {/* See All Button */}
             <button 
               onClick={() => setShowAll(!showAll)}
-              className='px-4 py-2 font-semibold flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-lg gap-2 text-sm transition-all duration-300 transform hover:scale-105 shadow-lg'
+              className='px-4 py-2 font-semibold flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-lg gap-2 text-xs transition-all duration-300 transform hover:scale-105 shadow-lg '
             >
               {showAll ? 'Show Less' : 'See All'} 
               <FaArrowRight className={`transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
@@ -168,7 +168,7 @@ const RecentTasks = ({recentTasks}) => {
         {/* Bottom Stats */}
         {filteredTasks?.length > 0 && (
           <div className="mt-6 pt-4 border-t border-gray-200/50">
-            <div className="flex justify-between items-center text-sm text-gray-600">
+            <div className="flex justify-between items-center text-xs text-gray-600">
               <span>Showing {displayTasks.length} of {filteredTasks.length} tasks</span>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">

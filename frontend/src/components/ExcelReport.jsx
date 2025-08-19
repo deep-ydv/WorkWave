@@ -27,7 +27,7 @@ const ExcelReport = ({temp}) => {
   }
 
   return (
-    <button className='bg-lime-200 px-2 py-1 rounded-md cursor-pointer' onClick={handleDownloadReport}>Download Report</button>
+    <button className='bg-lime-200 px-2 py-1 rounded-md cursor-pointer text-sm' onClick={handleDownloadReport}>Download Report</button>
   )
 }
 

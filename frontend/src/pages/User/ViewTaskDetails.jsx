@@ -14,13 +14,19 @@ import { HashLoader } from "react-spinners"
 const ViewTaskDetails = () => {
   const [task, setTask] = useState(null) // Initialize as null for better loading state handling
   const [flag, setFlag] = useState(false)
+  const [totalTask,setTotalTask]=useState(0);
+  const [completedTask,setCompletedTask]=useState(0);
+  const [priority,setPriority]=useState("Pending");
+
   const { id: taskId } = useParams() // Destructure id from useParams
   const navigate = useNavigate()
 
   const fetchTaskDetails = async () => {
     try {
       const response = await axiosInstance.get(`/tasks/${taskId}`)
+      setTotalTask(response.data.todoChecklist.length);
       setTask(response.data)
+      setPriority(response.data.priority);
     } catch (error) {
       console.error("Error fetching task details:", error)
       toast.error("Failed to load task details.")
@@ -60,6 +66,12 @@ const ViewTaskDetails = () => {
     const updatedTodoChecklist = task.todoChecklist.map((t) =>
       t._id === currentTodo._id ? { ...t, completed: e.target.checked } : t,
     )
+    let completed=0;
+    updatedTodoChecklist.map((curr)=>{
+    if(curr.completed) completed++;
+    })
+    setCompletedTask(completed);
+    // console.log(completedTask,totalTask);
 
     try {
       await axiosInstance.put(`/tasks/${task._id}/todo`, {
@@ -84,10 +96,16 @@ const ViewTaskDetails = () => {
       toast.error("Invalid URL")
     }
   }
+  useEffect(()=>{
+    console.log(completedTask,totalTask);
+    if(completedTask==0) setPriority("Pending");
+    else if(completedTask<totalTask) setPriority("In Progress");
+    else if(completedTask==totalTask) setPriority("Completed");
+  },[completedTask])
 
   useEffect(() => {
     fetchTaskDetails()
-  }, [taskId.id, flag]) // Re-fetch when taskId changes or flag is toggled
+  }, [taskId.id, flag,priority]) // Re-fetch when taskId changes or flag is toggled
 
   if (!task) {
     // Show loading spinner if task is null (initial state)
@@ -136,7 +154,7 @@ const ViewTaskDetails = () => {
         {/* Task Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-200">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 capitalize">{task.title}</h1>
-          <span className={`px-4 py-1 rounded-full text-sm font-semibold border ${getProgressColor(task.status)}`}>
+          <span className={` w-30 text-center px-4 py-1 rounded-full text-sm font-semibold border ${getProgressColor(task.status)}`}>
             {task.status}
           </span>
         </div>
@@ -152,9 +170,10 @@ const ViewTaskDetails = () => {
           {/* Priority */}
           <div className="flex flex-col">
             <p className="text-sm font-medium text-gray-500 mb-1">Priority</p>
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(task.priority)}`}>
-              {task.priority}
+            <span className={`w-30 text text-center px-3 py-1 rounded-full text-xs font-semibold border ${getPriorityColor(priority)}`}>
+              {priority}
             </span>
+          
           </div>
 
           {/* Due Date */}

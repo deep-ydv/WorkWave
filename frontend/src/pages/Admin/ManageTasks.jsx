@@ -47,14 +47,24 @@ const ManageTasks = () => {
 </div>
   return (
     <AdminLayout>
-          <div className='flex gap-4 flex-col'>
-        <div className='flex justify-between items-center'>
-          <h1 className='text-xl font-semibold'>My Tasks</h1>
+          <div className='flex gap-4 flex-col p-4 '>
+        <div className='hidden sm:flex justify-between items-center'>
+          <h1 className='text-sm sm:text-xl font-semibold'>My Tasks</h1>
           <div className='flex gap-4'>
           <TaskNav taskDetails={taskDetails}/>
           <ExcelReport temp="tasks"/>
           </div>
         </div>
+        <div className='flex flex-col justify-between gap-4 items-center sm:hidden'>
+        <div className='w-full flex justify-between items-center text-xs'>
+            <p className='font-semibold text-[14px]'>My Tasks</p>
+            <ExcelReport temp="tasks"/></div>
+        </div>
+          <div className='flex w-full border-'>
+          <TaskNav taskDetails={taskDetails}/>
+         
+          </div>
+          
         <div className='w-full flex flex-wrap gap-4'>
         {taskDetails.recentTasks.map((task,idx)=>{
           if(filteringState=="inProgress") filteringState="in progress";

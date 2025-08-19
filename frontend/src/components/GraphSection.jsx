@@ -25,7 +25,7 @@ const GraphSection = ({taskDetail}) => {
         <div className="w-full lg:w-1/2 bg-gradient-to-br from-white to-blue-50/30 backdrop-blur-sm border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
           <div className="p-4 lg:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Task Distribution</h3>
+              <h3 className="text-sm sm:text-lg font-semibold text-gray-800">Task Distribution</h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span className="text-xs text-gray-500">Status Overview</span>
@@ -41,8 +41,8 @@ const GraphSection = ({taskDetail}) => {
           </div>
           
           {/* Chart Legend */}
-          <div className="px-4 lg:px-6 pb-4 lg:pb-6">
-            <div className="flex flex-wrap gap-3 text-xs">
+          <div className="px-4 lg:px-6 pb-4 lg:pb-6 ">
+            <div className="flex flex-wrap gap-3 text-xs justify-center">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 <span className="text-gray-600">Pending</span>
@@ -63,7 +63,7 @@ const GraphSection = ({taskDetail}) => {
         <div className="w-full lg:w-1/2 bg-gradient-to-br from-white to-purple-50/30 backdrop-blur-sm border border-white/20 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
           <div className="p-4 lg:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Priority Levels</h3>
+              <h3 className="text-sm sm:text-lg font-semibold text-gray-800">Priority Levels</h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                 <span className="text-xs text-gray-500">Priority Analysis</span>
@@ -80,7 +80,7 @@ const GraphSection = ({taskDetail}) => {
           
           {/* Chart Legend */}
           <div className="px-4 lg:px-6 pb-4 lg:pb-6">
-            <div className="flex flex-wrap gap-3 text-xs">
+            <div className="flex flex-wrap gap-3 text-xs justify-center">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 <span className="text-gray-600">Low Priority</span>

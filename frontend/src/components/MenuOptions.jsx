@@ -8,7 +8,7 @@ const MenuOptions = ({icon,text,route}) => {
   const active=useLocation().pathname;
   const parts = active.split("/");
 const segment = parts[2]; // "update-task-details"
-  console.log(segment)
+  // console.log(segment)
   const navigate=useNavigate();
   const handleClick=()=>{
     if(text==="Logout"){

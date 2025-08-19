@@ -11,7 +11,7 @@ const TaskCount = ({clr,number,text}) => {
   return (
     <div className='flex gap-2 items-center'>
       <p className={`w-[10px] h-[24px] ${colorMap[clr]} rounded-2xl`}></p>
-      <p className='text-gray-800'><span className='font-semibold'>{number}</span> {text}</p>
+      <p className='text-gray-800 text-xs'><span className='font-semibold text-xs'>{number}</span> {text}</p>
     </div>
   )
 }

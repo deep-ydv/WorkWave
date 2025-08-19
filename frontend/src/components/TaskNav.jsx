@@ -19,7 +19,7 @@ const TaskNav = ({ taskDetails }) => {
   };
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-2  items-center">
       {["all", "pending", "inProgress", "completed"].map((statusKey) => {
         const displayName =
           statusKey === "all"
@@ -39,11 +39,11 @@ const TaskNav = ({ taskDetails }) => {
         return (
           <p
             key={statusKey}
-            className={`cursor-pointer ${text}`}
+            className={`cursor-pointer ${text} text-xs sm:text-md border- text-center `}
             onClick={() => handleClick(statusKey)}
           >
             {displayName}{" "}
-            <span className={`rounded-xl px-3 ${badge}`}>{count}</span>
+            <span className={`rounded-xl px-3 ${badge} text-xs sm:text-md`}>{count}</span>
           </p>
         );
       })}

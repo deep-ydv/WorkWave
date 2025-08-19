@@ -39,11 +39,11 @@ const UserLayout = ({ children }) => {
   // if (error) return <div>{error}</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 ">
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 lg:pl-[18%]">
+      <div className="fixed top-0 left-0 w-full z-110 flex items-center justify-between px-4 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 ">
         <p className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-          Work Wave
+          Task Wave
         </p>
         {/* Hamburger menu for mobile */}
         <button
@@ -57,7 +57,8 @@ const UserLayout = ({ children }) => {
 
       <div className="flex">
         {/* Sidebar */}
-        <div
+        <div className="absolute z-100 sm:fixed">
+          <div
           className={`fixed top-0 left-0 h-screen pt-16 bg-white/90 backdrop-blur-md shadow-lg z-40 transition-all duration-300 ease-in-out
             ${isSidebarOpen ? "w-64" : "w-0"}
             lg:w-[18%] lg:translate-x-0
@@ -91,19 +92,22 @@ const UserLayout = ({ children }) => {
             </div>
           </div>
           {/* Decorative bottom card */}
-          <div className="absolute bottom-0 left-0 w-full p-4">
+          {/* <div className="absolute bottom-0 left-0 w-full p-4">
             <div className="bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl p-4 text-white shadow-lg text-center">
               <p className="text-sm font-semibold">TaskWave Pro</p>
               <p className="text-xs mt-1">Unlock advanced features!</p>
             </div>
-          </div>
+          </div> */}
         </div>
+        </div>
+
 
         {/* Main Content Area */}
         <div
-          className={`flex-1 pt-20 p-4 transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? "ml-64 lg:ml-[18%]" : "ml-0 lg:ml-[18%]"}
-        `}
+        className={`p-4 pt-20 w-full ml-0 lg:ml-[18%] `}
+        //   className={`flex-1 pt-20 p-4 transition-all duration-300 ease-in-out
+        //   ${isSidebarOpen ? "ml-64 lg:ml-[18%]" : "ml-0 lg:ml-[18%]"}
+        // `}
         >
           {children}
         </div>

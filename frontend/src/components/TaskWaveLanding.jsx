@@ -20,6 +20,8 @@ import {
   X,
 } from "lucide-react"
 import TaskWaveLogo from "./ui/TaskWaveLogo"
+import NavBar from "./NavBar"
+import DemoSection from "./DemoSection"
 
 const TaskWaveLanding = () => {
   const [openAccordion, setOpenAccordion] = useState(null)
@@ -123,49 +125,49 @@ const TaskWaveLanding = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Sandhya Rawat",
       role: "Project Manager, TechCorp",
-      initials: "SJ",
+      initials: "SR",
       gradient: "from-blue-500 to-purple-500",
       testimonial:
         "TaskWave has completely transformed how our team collaborates. The real-time updates mean everyone stays in sync, and productivity has increased by 40%.",
     },
     {
-      name: "Michael Chen",
+      name: "Manoj Rajput",
       role: "Team Lead, StartupXYZ",
-      initials: "MC",
+      initials: "MR",
       gradient: "from-green-500 to-blue-500",
       testimonial:
         "The best part about TaskWave is how intuitive it is. Our team was up and running in minutes, and the real-time collaboration features are game-changing.",
     },
     {
-      name: "Emily Rodriguez",
+      name: "Neha Singh",
       role: "Operations Director, GrowthCo",
-      initials: "ER",
+      initials: "NS",
       gradient: "from-purple-500 to-pink-500",
       testimonial:
         "TaskWave's admin dashboard gives me complete visibility into our projects. I can track progress in real-time and our team loves the mobile experience.",
     },
     {
-      name: "David Kim",
+      name: "Dev Yadav",
       role: "CTO, InnovateLab",
-      initials: "DK",
+      initials: "DY",
       gradient: "from-orange-500 to-red-500",
       testimonial:
         "We've tried many task management tools, but TaskWave's real-time synchronization is unmatched. It's free and works better than paid alternatives.",
     },
     {
-      name: "Lisa Wang",
+      name: "Rohit Singh",
       role: "Product Manager, DesignStudio",
-      initials: "LW",
+      initials: "RS",
       gradient: "from-teal-500 to-green-500",
       testimonial:
         "The notification system keeps everyone informed without being overwhelming. Task assignments are instant and the progress tracking is incredibly detailed.",
     },
     {
-      name: "James Brown",
+      name: "Piyush Aggarwal",
       role: "Founder, AgencyPro",
-      initials: "JB",
+      initials: "PA",
       gradient: "from-indigo-500 to-purple-500",
       testimonial:
         "TaskWave has streamlined our entire workflow. The ability to assign tasks to multiple team members and track everything in real-time is exactly what we needed.",
@@ -173,11 +175,11 @@ const TaskWaveLanding = () => {
   ]
 
   const faqItems = [
-    {
-      question: "How does real-time task tracking work?",
-      answer:
-        "TaskWave uses WebSocket technology to provide instant updates across all dashboards. When a team member updates a task status or marks it complete, the admin dashboard reflects these changes immediately without requiring a page refresh.",
-    },
+    // {
+    //   question: "How does real-time task tracking work?",
+    //   answer:
+    //     "TaskWave uses WebSocket technology to provide instant updates across all dashboards. When a team member updates a task status or marks it complete, the admin dashboard reflects these changes immediately without requiring a page refresh.",
+    // },
     {
       question: "Can I assign one task to multiple team members?",
       answer:
@@ -198,11 +200,11 @@ const TaskWaveLanding = () => {
       answer:
         "We take security seriously. TaskWave uses enterprise-grade encryption, secure authentication, and follows industry best practices for data protection. All data is encrypted in transit and at rest, and we provide role-based access controls to ensure team members only see what they need to.",
     },
-    {
-      question: "Can I integrate TaskWave with other tools?",
-      answer:
-        "Yes! TaskWave offers integrations with popular tools like Slack, Microsoft Teams, Google Workspace, and many others. We also provide a robust API for custom integrations with your existing workflow tools.",
-    },
+    // {
+    //   question: "Can I integrate TaskWave with other tools?",
+    //   answer:
+    //     "Yes! TaskWave offers integrations with popular tools like Slack, Microsoft Teams, Google Workspace, and many others. We also provide a robust API for custom integrations with your existing workflow tools.",
+    // },
   ]
 
   const footerSections = [
@@ -221,6 +223,7 @@ const TaskWaveLanding = () => {
   ]
   const navigate=useNavigate();
   const handleAuth=(text)=>{
+    console.log(text);
     if(text=="login") navigate("/login");
     else if(text=="singup") navigate("/signup");
   }
@@ -228,89 +231,7 @@ const TaskWaveLanding = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-[#0b1322] text-white
-  shadow-sm
- ">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6 max-w-7xl mx-auto">
-          <div className="flex items-center space-x-2">
-            {/* <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-              <Workflow className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              TaskWave
-            </span> */}
-            <div className="w-[150px] sm:w-[200px] border- border-white"> 
-              <TaskWaveLogo />
-              </div>
- 
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => scrollToSection("how-it-works")}
-              className="text-sm font-medium hover:text-blue-600 transition-colors cursor-pointer bg-transparent border-none"
-            >
-              How it Works
-            </button>
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-sm font-medium hover:text-blue-600 transition-colors cursor-pointer bg-transparent border-none"
-            >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection("faq")}
-              className="text-sm font-medium hover:text-blue-600 transition-colors cursor-pointer bg-transparent border-none"
-            >
-              FAQ
-            </button>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <button onClick={()=>handleAuth("login")} className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-black   h-10 px-4 py-2">
-              Login
-            </button>
-            <button onClick={()=>handleAuth("singup")} className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-10 px-4 py-2" >
-              Get Started
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-gray-100 h-10 w-10"
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t bg-[#0b1322]">
-            <div className="container px-4 py-4 space-y-4 max-w-7xl mx-auto">
-              <button
-                onClick={() => scrollToSection("how-it-works")}
-                className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2"
-              >
-                How it Works
-              </button>
-              <button
-                onClick={() => scrollToSection("features")}
-                className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2"
-              >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection("faq")}
-                className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2"
-              >
-                FAQ
-              </button>
-              <button onClick={()=>handleAuth("login")} className="block w-full text-left text-sm font-medium hover:text-blue-600 transition-colors py-2">
-                Login
-              </button>
-            </div>
-          </div>
-        )}
-      </header>
+      <NavBar/>
 
       {/* Hero Section */}
       <section className="py-20 md:py-32 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -337,11 +258,11 @@ const TaskWaveLanding = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg px-8 py-6 h-11">
+                <button onClick={()=>handleAuth("login")} className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-lg px-8 py-6 h-11">
                   Get Started Free
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
-                <button className="inline-flex items-center justify-center rounded-md font-medium transition-colors border border-gray-300 bg-transparent hover:bg-gray-50 text-lg px-8 py-6 h-11">
+                <button onClick={()=>scrollToSection("Demo")} className="inline-flex items-center justify-center rounded-md font-medium transition-colors border border-gray-300 bg-transparent hover:bg-gray-50 text-lg px-8 py-6 h-11">
                   <Play className="mr-2 h-5 w-5" />
                   Watch Demo
                 </button>
@@ -400,75 +321,10 @@ const TaskWaveLanding = () => {
       </section>
 
       {/* Demo Section with MacBook */}
-      <section className="py-20 md:py-32 bg-white">
-        <div className="container px-4 md:px-6 max-w-7xl mx-auto">
-          <div className="text-center space-y-4 mb-16">
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors text-gray-950 border-gray-200">
-              See TaskWave in Action
-            </div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-              Watch how easy it is to manage tasks
-            </h2>
-            <p className="text-xl text-gray-600 max-w-[800px] mx-auto">
-              See TaskWave in action - from creating tasks to real-time team collaboration
-            </p>
-          </div>
-
-          {/* MacBook Demo Video */}
-          <div className="relative max-w-6xl mx-auto mb-20">
-            <div className="relative">
-              {/* MacBook Frame */}
-              <div className="relative bg-gray-800 rounded-t-xl p-2 shadow-2xl">
-                <div className="bg-gray-700 rounded-t-lg p-2">
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                </div>
-                <div className="bg-black rounded-b-lg relative overflow-hidden">
-                  {/* Video Placeholder */}
-                  <div className="aspect-video bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center relative">
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="relative z-10 text-center text-white space-y-4">
-                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm border border-white/30">
-                        <Play className="w-8 h-8 text-white ml-1" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-semibold">Task Creation & Assignment Demo</h3>
-                        <p className="text-blue-200">Watch how to create and assign tasks in under 2 minutes</p>
-                      </div>
-                    </div>
-                    {/* Simulated UI Elements */}
-                    <div className="absolute top-4 left-4 right-4">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                              <Workflow className="w-4 h-4 text-white" />
-                            </div>
-                            <span className="text-white font-medium">TaskWave Admin</span>
-                          </div>
-                          <div className="flex space-x-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            <span className="text-green-400 text-sm">Live</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* MacBook Base */}
-              <div className="bg-gray-300 h-6 rounded-b-xl mx-auto" style={{ width: "60%" }}></div>
-              <div className="bg-gray-400 h-2 rounded-full mx-auto mt-1" style={{ width: "20%" }}></div>
-            </div>
-          </div>
-        </div>
-      </section>
+        <DemoSection/>
 
       {/* Trusted Companies Section */}
-      <section className="py-16 bg-[#0b1322]">
+      {/* <section className="py-16 bg-[#0b1322]">
         <div className="container px-4 md:px-6 max-w-7xl mx-auto">
           <div className="text-center space-y-4 mb-12">
             <p className="text-sm font-medium text-white uppercase tracking-wide">
@@ -477,18 +333,18 @@ const TaskWaveLanding = () => {
           </div>
 
           <div className="relative overflow-hidden">
-            <div className="flex animate-scroll space-x-16 items-center">
+            <div className="flex animate-scroll space-x-16 items-center"> */}
               {/* First set of logos */}
-              <div className="flex space-x-16 items-center min-w-max">
+              {/* <div className="flex space-x-16 items-center min-w-max">
                 {companies.map((company, index) => (
                   <div key={index} className="flex items-center space-x-2 text-gray-400">
                     <div className={`w-8 h-8 ${company.color} rounded-lg`}></div>
                     <span className="text-xl font-bold">{company.name}</span>
                   </div>
                 ))}
-              </div>
+              </div> */}
               {/* Duplicate set for seamless loop */}
-              <div className="flex space-x-16 items-center min-w-max">
+              {/* <div className="flex space-x-16 items-center min-w-max">
                 {companies.map((company, index) => (
                   <div key={`duplicate-${index}`} className="flex items-center space-x-2 text-gray-400">
                     <div className={`w-8 h-8 ${company.color} rounded-lg`}></div>
@@ -499,7 +355,7 @@ const TaskWaveLanding = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* How it Works Section */}
       <section id="how-it-works" className="py-20 md:py-32 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
@@ -689,12 +545,12 @@ const TaskWaveLanding = () => {
               experience real-time task management like never before.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-6 h-11">
+              <button onClick={()=>handleAuth("login")} className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-6 h-11">
                 Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
-              <button className="inline-flex items-center justify-center rounded-md font-medium transition-colors border border-white text-white hover:bg-white hover:text-blue-600 bg-transparent text-lg px-8 py-6 h-11">
-                Schedule Demo
+              <button onClick={()=>scrollToSection("Demo")} className="inline-flex items-center justify-center rounded-md font-medium transition-colors border border-white text-white hover:bg-white hover:text-blue-600 bg-transparent text-lg px-8 py-6 h-11">
+                Watch Demo
               </button>
             </div>
             <p className="text-sm text-blue-200">Completely Free • No credit card required • Setup in minutes</p>

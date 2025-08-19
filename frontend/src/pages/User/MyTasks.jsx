@@ -20,7 +20,7 @@ const MyTasks = () => {
       const response=await axiosInstance.get("/tasks/user-dashboard-data");
       
     
-      setTaskDetails(response.data);
+      if(response) setTaskDetails(response.data);
       // console.log("success",response);
     }
     catch(error){
@@ -30,11 +30,12 @@ const MyTasks = () => {
 
   useEffect(()=>{
     // console.log("I M MyTask.jsx");
-
+    console.log(taskDetails,taskDetails.length)
     taskData();
   },[])
 
   var {filteringState}=useAdminContext();
+
 
   return (
     <UserLayout>
@@ -44,19 +45,22 @@ const MyTasks = () => {
   <p className="text-sm text-gray-500">Loading, please wait...</p>
 </div>:<div  className='flex gap-4 flex-col'>
         <div className='flex justify-between items-center'>
-          <h1 className='text-xl font-semibold'>All Tasks</h1>
+          <h1 className='text-sm sm:text-xl font-semibold'>All Tasks</h1>
           {/* <div className='flex gap-4'> */}
           <TaskNav taskDetails={taskDetails}/>
           {/* <button className='bg-lime-200 px-2 py-1 rounded-md' onClick={()=>exportDataInExcel(taskDetails)}>Download Report</button> */}
           {/* </div> */}
         </div>
+        {/* {taskDetails.length==undefined && <div className='w-full text-center'>No Task Available</div>} */}
         <div className='w-full flex flex-wrap gap-4'>
         {taskDetails.recentTasks.map((task,idx)=>{
+          
           if(filteringState=="inProgress") filteringState="in progress";
           if(filteringState=="all")
           return <ManageTaskCard key={idx} taskId={task._id}/>
           else if(filteringState===task.status.toLowerCase())
           return <ManageTaskCard key={idx} taskId={task._id}/>
+       
 
         })}
         </div>

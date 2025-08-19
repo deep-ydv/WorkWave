@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { useAdminContext } from '../../context/AdminContext';
 import HowToUse from '../../components/HowToUse'
 import { IoIosCloseCircleOutline } from "react-icons/io"
+import Loading from '../../components/Loading';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -21,6 +22,7 @@ const SignUp = () => {
   const [fileData, setFileData] = useState(null);
   const [errors, setErrors] = useState({});
   const [howToUse,setHowToUse]=useState(false);
+  const [signupLoading,setSignupLoading]=useState(false);
 
   const handleHowToUse=()=>{
     setHowToUse(prev=>!prev)
@@ -90,7 +92,7 @@ const SignUp = () => {
     e.preventDefault();
 
     if (!validate()) return;
-
+    setSignupLoading(true);
     try {
       let url = "";
       if (fileData) {
@@ -117,18 +119,23 @@ const SignUp = () => {
       if (response.data.role === "admin") navigate("/admin/dashboard");
       else if (response.data.role === "member") navigate("/user/dashboard");
     } catch (error) {
+    setSignupLoading(false);
+
       console.error("Signup Error", error?.response?.data?.message || error.message);
       toast.error(error?.response?.data?.message || "Signup failed");
     }
   };
-
+  if(signupLoading){
+    return <Loading/>
+  }
   return (
     <AuthLayout>
-      <div className='relative flex flex-col w-full justify-center h-full p-8 border-amber-900 border-0 md:justify-end'>
-      {<div className={`${howToUse?"block":"hidden"} absolute z-15 flex justify-center`}> <p className="absolute flex  w-[80%] justify-end px-2 py-1"><IoIosCloseCircleOutline className="text-purple-700 text-2xl hover:text-red-600 font-semibold cursor-pointer" onClick={handleHowToUse} /></p> <HowToUse/></div>}
+      <div className='relative flex flex-col w-full justify-center h-full p-8  border-amber-900 md:justify-end border-'>
+      {
+        <div className={`${howToUse?"block":"hidden"} absolute z-15 flex justify-center`}> <p className="absolute flex  w-[80%] justify-end px-2 py-1"><IoIosCloseCircleOutline className="text-purple-700 text-2xl hover:text-red-600 font-semibold cursor-pointer" onClick={handleHowToUse} /></p> <HowToUse/></div>}
         <div className='leading-tight text-center md:text-left'>
-          <h2 className='font-bold text-[22px]'>Create an Account</h2>
-          <p className='text-gray-500 text-[14px]'>Join us today by entering your details below.</p>
+          <h2 className='font-bold text-[18px] sm:text-[22px] text-white'>Create an Account</h2>
+          <p className='text-gray-400 text-[10px] sm:text-[14px] '>Join us today by entering your details below.</p>
         </div>
 
         <div>
@@ -152,7 +159,7 @@ const SignUp = () => {
             </div>
 
             {/* Input Fields */}
-            <div className='flex flex-wrap gap-x-8 gap-y-4 justify-center min-w-[300px] w-[100%] max-w-[700px] md:justify-between border-0 '>
+            <div className='flex flex-wrap gap-x-8 gap-y-3 justify-center min-w-[300px] w-[100%] max-w-[700px] md:justify-between border-0 '>
               <Input type="text" placeholder='Deep' Label="Full Name" setField={setName} auth="signup" />
               <Input type="email" placeholder='deep@example.com' Label="Email Address" setField={setEmail} auth="signup" />
               <Input type="password" placeholder='Min 8 Characters' Label="Password" setField={setPassword} auth="signup" />
@@ -169,11 +176,11 @@ const SignUp = () => {
             </button>
 
             {/* Redirect to Login */}
-            <p>
-              Already have an account? <Link to="/login" className='text-blue-700'>login</Link>
+            <p className='text-white'>
+              Already have an account? <Link to="/login" className='text-blue-400 hover:text-blue-700'>Login</Link>
             </p>
           </form>
-          <p className='text-red-300 cursor-pointer hover:text-red-600' onClick={handleHowToUse}>*How to use</p>
+          {/* <p className='text-red-300 cursor-pointer w-30 hover:text-red-600' onClick={handleHowToUse}>*How to use</p> */}
         </div>
       </div>
     </AuthLayout>

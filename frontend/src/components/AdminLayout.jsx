@@ -43,36 +43,37 @@ const AdminLayout = ({children}) => {
       {/* Header */}
       <div className="flex fixed w-full z-50 items-center justify-between px-6 bg-white/90 backdrop-blur-md h-16 border-b border-gray-200 shadow-sm">
         <div className="flex items-center space-x-4">
-          <button 
-            onClick={toggleSidebar}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            {isSidebarOpen ? <MdClose className="text-xl" /> : <MdMenu className="text-xl" />}
-          </button>
+          
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">W</span>
+              <span className="text-white font-bold text-sm">TW</span>
             </div>
             <p className='text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'>
-              Work Wave
+              Task Wave
             </p>
           </div>
         </div>
         
         {/* Mobile profile indicator */}
-        <div className="lg:hidden flex items-center space-x-2">
+        {/* <div className="lg:hidden flex items-center space-x-2">
           <img 
             src={profileData.profileImageUrl || "https://e7.pngegg.com/pngimages/507/702/png-clipart-profile-icon-simple-user-icon-icons-logos-emojis-users-thumbnail.png"} 
             alt="profile" 
             className="w-8 h-8 rounded-full border-2 border-blue-200" 
           />
-        </div>
+        </div> */}
+        <button 
+            onClick={toggleSidebar}
+            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {isSidebarOpen ? <MdClose className="text-xl" /> : <MdMenu className="text-xl" />}
+          </button>
       </div>
 
       <div className='flex'>
         {/* Sidebar */}
         <div className={`
-          bg-white/95 backdrop-blur-md w-80 h-screen pt-20 fixed z-40 transition-transform duration-300 ease-in-out border-r border-gray-200 shadow-xl
+          bg-white/95 backdrop-blur-md w-76 h-screen pt-20 fixed z-40 transition-transform duration-300 ease-in-out border-r border-gray-200 shadow-xl
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}>
           {/* Profile Section */}
@@ -132,13 +133,13 @@ const AdminLayout = ({children}) => {
           </div>
 
           {/* Bottom decoration */}
-          <div className="absolute bottom-6 left-6 right-6">
+          {/* <div className="absolute bottom-6 left-6 right-6">
             <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl p-4 text-center">
               <div className="text-2xl mb-2">🚀</div>
               <p className="text-sm font-medium text-gray-700">Boost your productivity</p>
               <p className="text-xs text-gray-500 mt-1">Manage tasks efficiently</p>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Mobile Overlay */}

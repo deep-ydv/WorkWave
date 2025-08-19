@@ -21,7 +21,7 @@ const ManageUsers = () => {
     <AdminLayout>
       <div className='p-4 bg-white rounded-md flex flex-col gap-4'>
         <div className='flex justify-between'>
-         <p className='font-semibold text-xl'>Team Members</p> 
+         <p className='font-semibold text-md sm:text-xl'>Team Members</p> 
          <ExcelReport temp="users"/>
          
         </div>
