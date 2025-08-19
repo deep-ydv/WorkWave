@@ -17,12 +17,21 @@ app.use(express.json());
 
 //MiddleWare to handle CORS
 app.use(cors({
+<<<<<<< HEAD
 // <<<<<<< HEAD
   origin:"*",
 // =======
   origin: "*", // TEMPORARY: allow all domains
   // origin:process.env.CLIENT_URL || "*",
 // >>>>>>> d5f1281 (some ui changes)
+=======
+
+  origin:"*",
+
+  origin: "*", // TEMPORARY: allow all domains
+  // origin:process.env.CLIENT_URL || "*",
+
+>>>>>>> a1cb4a3651c948b13b4dc0b160c714d646b29ad6
   // origin: ["http://localhost:5173", "https://workwave247.vercel.app"],
   methods: ["GET","POST","PUT","DELETE"],
   allowedHeaders: ["Content-Type","Authorization"],
